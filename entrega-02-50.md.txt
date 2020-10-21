@@ -1,0 +1,17 @@
+Observação(*ID*, #Doente, Valor)
+
+Intervenção(*ID*, data observação)
+
+Medição(*ID*, tipo)
+
+Acto Médico(*ID*, *#número*)
+
+Médico(*#Cédula*, Nome, Especialidade)
+
+Instituição(*Nome*, *Morada*)
+
+Protocolo(*NºProtocolo*, data de homologação, descrição)
+
+AnáliseLab(*ID*)
+
+LeituraLocal(*ID*)
