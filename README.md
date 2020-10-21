@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # BD_2020_2021
 
 ### Enunciados
@@ -15,4 +16,3 @@
 | [Parte2](Entrega2/entrega-02-50.md)        | 20.0           |
 | Parte3                                     | 20.0           |
 | Parte4                                     | 20.0           |
-
