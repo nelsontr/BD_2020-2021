@@ -58,13 +58,19 @@ TemplateAnalise(***NºProtocolo, Nome, Morada, ID***){
 #TODO -> COLOCAR IDAtoMedico = AtoMédico.ID
 
 Validado(***Nome, Morada, NºProtocolo, IDTemplateAnálise***, #numero, IDAtoMedico){
+    
     Nome, Morada, NºProtocolo, IDTemplateAnálise: FK(TemplateAnálise.Nome, TemplateAnálise.Morada, TemplateAnálise.NºProtocolo, TemplateAnálise.ID)
+    
     #numero, IDAtoMedico NOT NULL
+
 }
 
 Faz(#cédula, NºProtocolo, Nome, Morada, ID***){
+    
     #cédula: FK(Médico)
+    
     NºProtocolo, Nome, Morada, ID: FK(TemplateAnálise.NºProtocolo, TemplateAnálise.Nome, TemplateAnálise.Morada, TemplateAnálise.ID)
+
 }
 
 LeituraLocal(*ID*) {
@@ -74,8 +80,11 @@ LeituraLocal(*ID*) {
 }
 
 Segundo(***NºProtocolo, ID***){
+
     NºProtocolo: FK(Protocolo)
+
     ID: FK(LeituraLocal)
+
 }
 
 
