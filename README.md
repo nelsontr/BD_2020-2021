@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # BD_2020_2021
 
 ### Enunciados
