@@ -57,15 +57,15 @@ TemplateAnalise(***NºProtocolo, Nome, Morada, ID***){
 
 #TODO -> COLOCAR IDAtoMedico = AtoMédico.ID
 
-Validado(***Nome, Morada, NºProtocolo, IDTemplateAnálise***, #numero, IDAtoMedico){
+Validado(***Nome, Morada, NºProtocolo, IDTemplateAnálise***, #numero, IDAtoMedico, data){
     
     Nome, Morada, NºProtocolo, IDTemplateAnálise: FK(TemplateAnálise.Nome, TemplateAnálise.Morada, TemplateAnálise.NºProtocolo, TemplateAnálise.ID)
     
-    #numero, IDAtoMedico NOT NULL
+    #numero, IDAtoMedico: FK(AtoMédico.#numero, AtoMédico.ID)
 
 }
 
-Faz(#cédula, NºProtocolo, Nome, Morada, ID***){
+Faz(**#cédula, NºProtocolo, Nome, Morada, ID***){
     
     #cédula: FK(Médico)
     
