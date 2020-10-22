@@ -61,7 +61,7 @@ Validado(***Nome, Morada, NºProtocolo, IDTemplateAnálise***, #numero, IDAtoMed
     
     Nome, Morada, NºProtocolo, IDTemplateAnálise: FK(TemplateAnálise.Nome, TemplateAnálise.Morada, TemplateAnálise.NºProtocolo, TemplateAnálise.ID)
     
-    #numero, IDAtoMedico: FK(AtoMédico.#numero, AtoMédico.ID)
+    #numero, IDAtoMedico: FK(AtoMédico.#numero, AtoMédico.ID) NOT NULL
 
 }
 
