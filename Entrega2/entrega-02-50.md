@@ -98,3 +98,10 @@ Segundo(***NºProtocolo, ID***){
 -> para todo o ID da tabela AnáliseLab tem de existir pelo menos uma entrada na tabela TemplateAnálise
 **
 
+
+
+# Algebra Relacional
+
+Pergunta 1:
+    σ Data = "20-11-2020" ∧ Hora = "14:00" (Consulta)
+    
