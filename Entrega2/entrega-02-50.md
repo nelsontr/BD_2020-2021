@@ -28,13 +28,13 @@ Instituição(*Nome*, *Morada*)
 
 
 
-Consulta (***#Cédula, Data, Hora, ID, #numero***, especialidade) {
+Consulta (***#Cédula, Data, Hora***, ID, #numero, especialidade) {
 
 ​	#Cédula: FK(Médico)
 
 ​	Data, Hora: FK(Agenda.Data, Agenda.Hora)
 
-​	ID, #numero: FK(ActoMédico.ID, ActoMédico.#numero)
+​	ID, #numero: FK(ActoMédico.ID, ActoMédico.#numero) NOT NULL
 
 }
 
@@ -55,7 +55,7 @@ TemplateAnalise(***NºProtocolo, Nome, Morada, ID***){
     ID: FK(AnáliseLab)
 }
 
-#TODO -> COLOCAR IDAtoMedico = AtoMédico.ID
+
 
 Validado(***Nome, Morada, NºProtocolo, IDTemplateAnálise***, #numero, IDAtoMedico, data){
     
@@ -87,4 +87,14 @@ Segundo(***NºProtocolo, ID***){
 
 }
 
+
+# Restrições
+** (seta total)
+-> ID nunca existe em Intervenção e Medição ao mesmo tempo
+-> ID tem de existir em Intervenção ou em Medição
+**
+
+** (dupla seta entre AnáliseLab e TemplateAnálise)
+-> para todo o ID da tabela AnáliseLab tem de existir pelo menos uma entrada na tabela TemplateAnálise
+**
 
