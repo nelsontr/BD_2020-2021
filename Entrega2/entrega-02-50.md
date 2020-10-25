@@ -112,7 +112,7 @@ Pergunta 1:
 # SQL
 ### Pergunta 1
 ```sql
-SELECT m.cedula, m.nome
+SELECT m.*
 FROM m Médico, c Consulta
 WHERE m.cedula == c.cedula
 	AND c.data == "20-11-2020" 
@@ -120,7 +120,8 @@ WHERE m.cedula == c.cedula
 ```
 ### Pergunta 2
 ```sql
-SELECT MAX(COUNT(d.doente))
+SELECT MAX(COUNT(t.NºProtocolo))
+FROM t TemplateAnalise
 
 ```
 ### Pergunta 3
