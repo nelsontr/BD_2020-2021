@@ -38,7 +38,7 @@ Consulta (***#Cédula, Data, Hora***, ID, #numero, especialidade) {
 
 }
 
-Protocolo(*NºProtocolo*, data de homologação, descrição) 
+Protocolo(***NºProtocolo***, data de homologação, descrição) 
 
 AnáliseLab(*ID*) {
 
@@ -82,7 +82,7 @@ LeituraLocal(*ID*) {
 Segundo(***NºProtocolo, ID***){
 
     NºProtocolo: FK(Protocolo)
-
+    
     ID: FK(LeituraLocal)
 
 }
@@ -106,3 +106,26 @@ Pergunta 1:
     Join da consulta com médico?
     σ Data = "20-11-2020" ∧ Hora = "14:00" (Consulta)
     
+
+
+
+# SQL
+### Pergunta 1
+```sql
+SELECT m.cedula, m.nome
+FROM m Médico, c Consulta
+WHERE m.cedula == c.cedula
+	AND c.data == "20-11-2020" 
+	And c.hora == "14:00"
+```
+### Pergunta 2
+```sql
+SELECT MAX(COUNT(d.doente))
+
+```
+### Pergunta 3
+```sql
+SELECT d.doente
+FROM d Observação, t TemplateAnalise, p Protocolo
+WHERE COUNT(t.NºProtocolo) == COUNT(p.NºProtocolo)
+```
