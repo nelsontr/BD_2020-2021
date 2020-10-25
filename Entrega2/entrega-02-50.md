@@ -102,10 +102,11 @@ Segundo(***NºProtocolo, ID***){
 
 # Algebra Relacional
 
-Pergunta 1:
+### Pergunta 1:
     Join da consulta com médico?
-    σ Data = "20-11-2020" ∧ Hora = "14:00" (Consulta)
-    
+    π #Cédula, Nome, Especialidade(σ Data = "20-11-2020" ∧ Hora = "14:00" (Consulta) ⋈Consulta.#cédula = Médico.#cédula Médico)
+
+### Pergunta 2:
 
 
 
