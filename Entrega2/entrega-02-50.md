@@ -113,20 +113,23 @@ Pergunta 1:
 ### Pergunta 1
 ```sql
 SELECT m.*
-FROM m Médico, c Consulta
+FROM Médico m, Consulta c
 WHERE m.cedula == c.cedula
 	AND c.data == "20-11-2020" 
 	And c.hora == "14:00"
 ```
 ### Pergunta 2
 ```sql
-SELECT MAX(COUNT(t.NºProtocolo))
-FROM t TemplateAnalise
-
+SELECT o.#Doente as doente, COUNT(a.ID) as análises
+FROM Observação o, AnáliseLab a
+GROUP BY doente
+ORDER BY análises DESC, doente ASC
+LIMIT 1;
 ```
 ### Pergunta 3
 ```sql
-SELECT d.doente
-FROM d Observação, t TemplateAnalise, p Protocolo
-WHERE COUNT(t.NºProtocolo) == COUNT(p.NºProtocolo)
+SELECT o.#Doente as doente
+FROM Observação o, TemplateAnalise t, Protocolo p
+WHERE COUNT(DISTINCT t.NºProtocolo) == COUNT(p.NºProtocolo)
+	AND t.ID == o.ID
 ```
