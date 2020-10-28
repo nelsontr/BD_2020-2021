@@ -144,21 +144,53 @@ WHERE m.cedula = c.cedula
 ### Pergunta 2
 ```sql
 With tempr as (
-  SELECT d.customer_name as costu, COUNT(DISTINCT d.account_number) as anali
-  FROM depositor d
-  GROUP BY d.customer_name
-  ORDER BY anali DESC
+  SELECT o.customer_street as Nome_Doente, COUNT(a.customer_name) as num_Analises
+  FROM customer o NATURAL JOIN depositor a
+  GROUP BY o.customer_name
+  ORDER BY num_Analises DESC, Nome_Doente ASC
 )
 
-SELECT sub.costu
+SELECT Nome_Doente
 From tempr sub
-WHERE sub.anali = (SELECT MAX(tempr.anali) From tempr)
+WHERE sub.num_Analises = (SELECT MAX(sub.num_Analises) FROM tempr sub);
+
+-------
+
+With tempr as (
+  SELECT o.Doente as Nome_Doente, COUNT(DISTINCT a.ID) as num_Analises
+  FROM Observação o, AnáliseLab a
+  WHERE a.ID = o.ID
+  GROUP BY Nome_Doente
+  ORDER BY Nome_Doente ASC, num_Analises DESC
+)
+
+SELECT Nome_Doente
+From tempr sub
+WHERE sub.num_Analises = (SELECT MAX(sub.num_Analises) FROM tempr sub);
 ```
 ### Pergunta 3
 ```sql
-SELECT o.#Doente as doente
-FROM Observação o, TemplateAnalise t
-WHERE (SELECT COUNT(DISTINCT t.NºProtocolo) FROM TemplateAnalise t)
-			= (SELECT COUNT(DISTINCT p.NºProtocolo) FROM Protocolo p)
-	AND t.ID == o.ID
+With tempr as (
+  SELECT a.customer_name as Nome, COUNT(DISTINCT a.account_number) as Protocolos
+  FROM account o NATURAL JOIN depositor a
+  GROUP BY a.customer_name
+  ORDER BY Protocolos DESC, Nome ASC
+)
+
+SELECT *
+From tempr sub
+WHERE sub.Protocolos < (SELECT COUNT(o.account_number) FROM account o);
+
+-------
+
+With tempr as (
+  SELECT o.Doente as Doente, COUNT(DISTINCT t.NrProtocolo) as CounterProtocolos
+  FROM TemplateAnalise t NATURAL JOIN Observação o
+  GROUP BY Doente
+  ORDER BY CounterProtocolos DESC, Doente ASC
+)
+
+SELECT *
+From tempr sub
+WHERE sub.CounterProtocolos < (SELECT COUNT(p.NrProtocolo) FROM Protocolo p);
 ```
