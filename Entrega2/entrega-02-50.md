@@ -124,7 +124,8 @@ Segundo(***NºProtocolo, ID***){
 
 ### Pergunta 4:
 
-    
+    Aux <- pAux(3->atosMedicos)Data,#Cédula Gcount(#numero)(Consulta)
+    ...
 
 ### Pergunta 5:
 
