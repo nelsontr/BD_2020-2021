@@ -125,7 +125,7 @@ Segundo(***NºProtocolo, ID***){
 ### Pergunta 4:
 
     Aux <- pAux(3->atosMedicos)Data,#Cédula Gcount(#numero)(Consulta)
-    ...
+    π#Cédula (Data, #Cédula G max(atosMedicos)(Aux))
 
 ### Pergunta 5:
 
@@ -135,10 +135,9 @@ Segundo(***NºProtocolo, ID***){
 
 ### Pergunta 1
 ```sql
-SELECT m.cedula
-FROM Médico m, Consulta c
-WHERE m.cedula = c.cedula
-	AND c.data = "20-11-2020" 
+SELECT c.cedula
+FROM Consulta c
+WHERE c.data = "20-11-2020" 
 	And c.hora = "14:00"
 ```
 ### Pergunta 2
@@ -157,11 +156,10 @@ WHERE sub.num_Analises = (SELECT MAX(sub.num_Analises) FROM tempr sub);
 -------
 
 With tempr as (
-  SELECT o.Doente as Nome_Doente, COUNT(DISTINCT a.ID) as num_Analises
-  FROM Observação o, AnáliseLab a
-  WHERE a.ID = o.ID
+  SELECT o.Doente as Nome_Doente, COUNT(a.ID) as num_Analises
+  FROM Observação o NATURAL JOIN AnáliseLab a
   GROUP BY Nome_Doente
-  ORDER BY Nome_Doente ASC, num_Analises DESC
+  ORDER BY num_Analises DESC, Nome_Doente ASC
 )
 
 SELECT Nome_Doente
@@ -192,5 +190,5 @@ With tempr as (
 
 SELECT *
 From tempr sub
-WHERE sub.CounterProtocolos < (SELECT COUNT(p.NrProtocolo) FROM Protocolo p);
+WHERE sub.CounterProtocolos = (SELECT COUNT(p.NrProtocolo) FROM Protocolo p);
 ```
