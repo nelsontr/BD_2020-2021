@@ -104,7 +104,7 @@ Segundo(***NºProtocolo, ID***){
 
 ### Pergunta 1:
     Join da consulta com médico?
-    π #Cédula, Nome, Especialidade(σ Data = "20-11-2020" ∧ Hora = "14:00" (Consulta) ⋈Consulta.#cédula = Médico.#cédula Médico)
+    π #Cédula(σ Data = "20-11-2020" ∧ Hora = "14:00" (Consulta))
 
 ### Pergunta 2:
 
