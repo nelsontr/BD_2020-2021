@@ -113,24 +113,30 @@ Segundo(***NºProtocolo, ID***){
 # SQL
 ### Pergunta 1
 ```sql
-SELECT m.*
+SELECT m.cedula
 FROM Médico m, Consulta c
-WHERE m.cedula == c.cedula
-	AND c.data == "20-11-2020" 
-	And c.hora == "14:00"
+WHERE m.cedula = c.cedula
+	AND c.data = "20-11-2020" 
+	And c.hora = "14:00"
 ```
 ### Pergunta 2
 ```sql
-SELECT o.#Doente as doente, COUNT(a.ID) as análises
-FROM Observação o, AnáliseLab a
-GROUP BY doente
-ORDER BY análises DESC, doente ASC
-LIMIT 1;
+With tempr as (
+  SELECT d.customer_name as costu, COUNT(DISTINCT d.account_number) as anali
+  FROM depositor d
+  GROUP BY d.customer_name
+  ORDER BY anali DESC
+)
+
+SELECT sub.costu
+From tempr sub
+WHERE sub.anali = (SELECT MAX(tempr.anali) From tempr)
 ```
 ### Pergunta 3
 ```sql
 SELECT o.#Doente as doente
-FROM Observação o, TemplateAnalise t, Protocolo p
-WHERE COUNT(DISTINCT t.NºProtocolo) == COUNT(p.NºProtocolo)
+FROM Observação o, TemplateAnalise t
+WHERE (SELECT COUNT(DISTINCT t.NºProtocolo) FROM TemplateAnalise t)
+			= (SELECT COUNT(DISTINCT p.NºProtocolo) FROM Protocolo p)
 	AND t.ID == o.ID
 ```
