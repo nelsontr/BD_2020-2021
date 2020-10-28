@@ -90,27 +90,48 @@ Segundo(***NºProtocolo, ID***){
 
 # Restrições
 ** (seta total)
--> ID nunca existe em Intervenção e Medição ao mesmo tempo
--> ID tem de existir em Intervenção ou em Medição
+-> ID nunca existe em Intervenção e Medição ao mesmo tempo;
+-> ID tem de existir em Intervenção ou em Medição;
 **
 
-** (dupla seta entre AnáliseLab e TemplateAnálise)
--> para todo o ID da tabela AnáliseLab tem de existir pelo menos uma entrada na tabela TemplateAnálise
+** (dupla seta entre AnáliseLab e TemplateAnálise);
+-> para todo o ID da tabela AnáliseLab tem de existir pelo menos uma entrada na tabela TemplateAnálise;
 **
 
+**
 
+(RI-1): Para cada Médico cuja #Cédula está presente na tabela Consulta, a sua especialidade tem de ser igual à especialidade presente também na tabela Consulta;
 
-# Algebra Relacional
+(RI-2): Para cada quarteto NºProtocolo, Nome, Morada e ID presente na tabela TemplateAnalise tem de existir uma entrada na tabela Faz ou na tabela Validado;
+
+(RI-3): Para todo o #numero na tabela Acto Médico, não pode existir uma entrada nas tabelas TemplateAnálise e Consulta que seja igual;
+
+# Álgebra Relacional
 
 ### Pergunta 1:
-    Join da consulta com médico?
     π #Cédula(σ Data = "20-11-2020" ∧ Hora = "14:00" (Consulta))
 
 ### Pergunta 2:
+    Aux <- π(#Doente, ID) (Observação ⋈ AnaliseLab)
+    Counter <- pCounter(2->Analises)#Doente Gcount(ID)(Aux)
+    π#Doente(σAnalises = MAX(Counter * pR(1->MAX)(GMax(Analises)(Counter))))
 
+### Pergunta 3:
+    AuxProtocolos <- pAuxProtocolos(1->Limite)Gcount(Nr.Protocolo)(Protocolo)
+    AuxDoentes <- π(#Doente, ID, NrProtocolo) (Observação ⋈ TemplateAnalise)
+    ProtocolosAnalise <- pProtocolosAnalise(3->counter)#Doente, ID G count-distinct(NrProtocolo) (AuxDoentes)
+    π#Doente(σ AuxProtocolos.Limite = ProtocolosAnalise.counter(AuxProtocolos * ProtocolosAnalise))
 
+### Pergunta 4:
+
+    
+
+### Pergunta 5:
+
+    (π #Cédula, especialidade(Médico)) / (π especialidade(σ Data >= "1-1-2020" ∧ Data <= "2-2-2020" (Consulta)))
 
 # SQL
+
 ### Pergunta 1
 ```sql
 SELECT m.cedula
