@@ -12,6 +12,6 @@
 | Parte                                      | Nota (valores) |
 | ------------------------------------------ | -------------- |
 | [Parte1](Entrega1/Relatório_G50_BD_P1.pdf) | 20.0           |
-| [Parte2](Entrega2/entrega-02-50.md)        | 20.0           |
+| [Parte2](Entrega2/entrega-02-50.pdf)        | 20.0           |
 | Parte3                                     | 20.0           |
 | Parte4                                     | 20.0           |
