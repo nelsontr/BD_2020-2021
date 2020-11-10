@@ -5,7 +5,7 @@ CREATE TABLE nome_regiao (
   PRIMARY KEY (nome)
 );
 INSERT INTO nome_regiao VALUES
-  (Norte), (Centro), (Lisboa), (Alentejo), (Algarve);
+  ("Norte"), ("Centro"), ("Lisboa"), ("Alentejo"), ("Algarve");
 ALTER TABLE nome_regiao READ ONLY;
 
 
@@ -15,17 +15,19 @@ CREATE TABLE tipo_instituicao (
   PRIMARY KEY (tipo)
 );
 INSERT INTO tipo_instituicao VALUES
-  (farmacia), (laboratorio), (clinica), (hospital);
+  ("farmacia"), ("laboratorio"), ("clinica"), ("hospital");
 ALTER TABLE tipo_instituicao READ ONLY;
 
 
 CREATE TABLE concelhos_portugal (
-  id_concelho int,
-  nome varchar(255) NOT NULL,
+  id_distrito DOUBLE,
+  distrito_desc VARCHAR(255) NOT NULL,
+  id_concelho DOUBLE,
+  concelho_desc VARCHAR(255) NOT NULL,
 
-  PRIMARY KEY (id_concelho)
+  PRIMARY KEY (id_distrito, id_concelho)
 );
---INSERT VALUES
+--INSERT VALUES : concelho.sql
 ALTER TABLE concelhos_portugal READ ONLY;
 
 
