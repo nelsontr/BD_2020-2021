@@ -16,14 +16,14 @@ DROP TABLE prescricao_venda CASCADE;
 -- #### CREATE TABLES ####
 -- AUXILIAR Tables
 CREATE TABLE nome_regiao (
-  nome varchar(8) NOT NULL UNIQUE PRIMARY KEY;
+  nome varchar(8) NOT NULL UNIQUE PRIMARY KEY
 );
 INSERT INTO nome_regiao VALUES
   ('Norte'), ('Centro'), ('Lisboa'), ('Alentejo'), ('Algarve');
 
 
 CREATE TABLE tipo_instituicao (
-  tipo varchar(11) PRIMARY KEY;
+  tipo varchar(11) PRIMARY KEY
 );
 INSERT INTO tipo_instituicao VALUES
   ('farmacia'), ('laboratorio'), ('clinica'), ('hospital');
@@ -55,7 +55,7 @@ CREATE TABLE concelho (
 
 CREATE TABLE instituicao (
   nome varchar(255) PRIMARY KEY,
-  tipo varchar(255) NOT NULL,
+  tipo varchar(11) NOT NULL,
   num_regiao int NOT NULL,
   num_concelho int NOT NULL,
 
@@ -67,20 +67,21 @@ CREATE TABLE instituicao (
 CREATE TABLE medico (
   num_cedula int PRIMARY KEY,
   nome varchar(255),
-  especialidade varchar(255)
+  especialidade varchar(25)
 );
 
 
 CREATE TABLE consulta (
   num_cedula int,
   num_doente int,
-  data varchar(255),
+  data date,
   nome_instituicao varchar(255),
 
+  CHECK (EXTRACT(DOW from data) < 6.0),
   PRIMARY KEY (num_cedula, num_doente, data),
   FOREIGN KEY (num_cedula) REFERENCES medico(num_cedula),
   FOREIGN KEY (nome_instituicao) REFERENCES instituicao(nome)
-  --RI-consulta-1: um médico não pode ver doentes ao fim de semana
+  
   --RI-consulta-2: um doente não pode ter mais de uma consulta por dia na mesma ins tuição
 );
 
@@ -88,7 +89,7 @@ CREATE TABLE consulta (
 CREATE TABLE prescricao (
   num_cedula int,
   num_doente int,
-  data varchar(255),
+  data date,
   substancia varchar(255),
   quant int,
 
@@ -100,11 +101,11 @@ CREATE TABLE prescricao (
 
 CREATE TABLE analise (
   num_analise int PRIMARY KEY,
-  especialidade varchar(255),
+  especialidade varchar(25),
   num_cedula int,
   num_doente int,
-  data varchar(255),
-  data_registo varchar(255),
+  data date,
+  data_registo date,
   nome varchar(255),
   quant int,
   inst varchar(255),
@@ -118,7 +119,7 @@ CREATE TABLE analise (
 
 CREATE TABLE venda_farmacia (
   num_venda int,
-  data_registo varchar(255),
+  data_registo date,
   substancia varchar(255),
   quant int,
   preco int,
@@ -132,7 +133,7 @@ CREATE TABLE venda_farmacia (
 CREATE TABLE prescricao_venda (
   num_cedula int,
   num_doente int,
-  data varchar(255),
+  data date,
   substancia varchar(255),
   num_venda int,
 
