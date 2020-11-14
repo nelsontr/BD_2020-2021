@@ -21,14 +21,16 @@ CREATE TABLE nome_regiao (
 INSERT INTO nome_regiao VALUES
   ('Norte'), ('Centro'), ('Lisboa'), ('Alentejo'), ('Algarve');
 
-
 CREATE TABLE tipo_instituicao (
   tipo varchar(11) PRIMARY KEY
 );
 INSERT INTO tipo_instituicao VALUES
   ('farmacia'), ('laboratorio'), ('clinica'), ('hospital');
 
-
+CREATE TABLE nome_concelho (
+  nome varchar(24) NOT NULL UNIQUE PRIMARY KEY;
+);
+--INSERT
 
 -- Principal Tables
 CREATE TABLE regiao (
@@ -48,8 +50,8 @@ CREATE TABLE concelho (
   num_habitantes int,
 
   PRIMARY KEY (num_concelho, num_regiao),
-  FOREIGN KEY (num_regiao) REFERENCES regiao(num_regiao)
-  --VER RESTRIÇÃO
+  FOREIGN KEY (num_regiao) REFERENCES regiao(num_regiao),
+  FOREIGN KEY (nome) REFERENCES nome_concelho(nome)
 );
 
 
