@@ -1,43 +1,42 @@
---####  AUXILIAR Tables  ####
-CREATE TABLE nome_regiao (
-  nome varchar(255),
+-- #### DROP TABLES ####
+-- AUX TABLES
+DROP TABLE nome_regiao CASCADE;
+DROP TABLE tipo_instituicao CASCADE;
+-- PRINCIPAL TABLES
+DROP TABLE regiao CASCADE;
+DROP TABLE concelho CASCADE;
+DROP TABLE instituicao CASCADE;
+DROP TABLE medico CASCADE;
+DROP TABLE consulta CASCADE;
+DROP TABLE prescricao CASCADE;
+DROP TABLE analise CASCADE;
+DROP TABLE venda_farmacia CASCADE;
+DROP TABLE prescricao_venda CASCADE;
 
-  PRIMARY KEY (nome)
+-- #### CREATE TABLES ####
+-- AUXILIAR Tables
+CREATE TABLE nome_regiao (
+  nome varchar(8) NOT NULL UNIQUE PRIMARY KEY;
 );
 INSERT INTO nome_regiao VALUES
-  ("Norte"), ("Centro"), ("Lisboa"), ("Alentejo"), ("Algarve");
-ALTER TABLE nome_regiao READ ONLY;
+  ('Norte'), ('Centro'), ('Lisboa'), ('Alentejo'), ('Algarve');
 
 
 CREATE TABLE tipo_instituicao (
-  tipo varchar(255),
-
-  PRIMARY KEY (tipo)
+  tipo varchar(11) PRIMARY KEY;
 );
 INSERT INTO tipo_instituicao VALUES
-  ("farmacia"), ("laboratorio"), ("clinica"), ("hospital");
-ALTER TABLE tipo_instituicao READ ONLY;
+  ('farmacia'), ('laboratorio'), ('clinica'), ('hospital');
 
 
-CREATE TABLE concelhos_portugal (
-  id_distrito DOUBLE,
-  distrito_desc VARCHAR(255) NOT NULL,
-  id_concelho DOUBLE,
-  concelho_desc VARCHAR(255) NOT NULL,
 
-  PRIMARY KEY (id_distrito, id_concelho)
-);
---INSERT VALUES : concelho.sql
-ALTER TABLE concelhos_portugal READ ONLY;
-
-
--- ####  Principal Tables  ####
+-- Principal Tables
 CREATE TABLE regiao (
-  num_regiao int,
-  nome varchar(255),
+  num_regiao int PRIMARY KEY,
+  nome varchar(8) NOT NULL UNIQUE,
   num_habitantes int,
 
-  PRIMARY KEY (num_regiao),
+  UNIQUE(num_regiao, nome),
   FOREIGN KEY (nome) REFERENCES nome_regiao(nome)
 );
 
@@ -45,34 +44,30 @@ CREATE TABLE regiao (
 CREATE TABLE concelho (
   num_concelho int,
   num_regiao int,
-  nome varchar(255),
+  nome varchar(24),
   num_habitantes int,
 
   PRIMARY KEY (num_concelho, num_regiao),
-  FOREIGN KEY (num_regiao) REFERENCES regiao(regiao)
+  FOREIGN KEY (num_regiao) REFERENCES regiao(num_regiao)
   --VER RESTRIÇÃO
 );
 
 
 CREATE TABLE instituicao (
-  nome varchar(255),
-  tipo varchar(255),
-  num_regiao int,
-  num_concelho int,
+  nome varchar(255) PRIMARY KEY,
+  tipo varchar(255) NOT NULL,
+  num_regiao int NOT NULL,
+  num_concelho int NOT NULL,
 
-  PRIMARY KEY (nome),
-  FOREIGN KEY (num_regiao) REFERENCES concelho(num_regiao),
-  FOREIGN KEY (num_concelho) REFERENCES concelho(num_concelho),
+  FOREIGN KEY (num_concelho,num_regiao) REFERENCES concelho(num_concelho,num_regiao),
   FOREIGN KEY (tipo) REFERENCES tipo_instituicao(tipo)
 );
 
 
 CREATE TABLE medico (
-  num_cedula int,
+  num_cedula int PRIMARY KEY,
   nome varchar(255),
-  especialidade varchar(255),
-
-  PRIMARY KEY (num_cedula)
+  especialidade varchar(255)
 );
 
 
@@ -98,14 +93,13 @@ CREATE TABLE prescricao (
   quant int,
 
   PRIMARY KEY (num_cedula, num_doente, data, substancia),
-  FOREIGN KEY (num_cedula) REFERENCES consulta(num_cedula),
-  FOREIGN KEY (num_doente) REFERENCES consulta(num_doente),
-  FOREIGN KEY (data) REFERENCES consulta(data)
+  FOREIGN KEY (num_cedula, num_doente, data)
+    REFERENCES consulta(num_cedula, num_doente, data)
 );
 
 
 CREATE TABLE analise (
-  num_analise int,
+  num_analise int PRIMARY KEY,
   especialidade varchar(255),
   num_cedula int,
   num_doente int,
@@ -115,10 +109,8 @@ CREATE TABLE analise (
   quant int,
   inst varchar(255),
 
-  PRIMARY KEY (num_analise),
-  FOREIGN KEY (num_cedula) REFERENCES consulta(num_cedula),
-  FOREIGN KEY (num_doente) REFERENCES consulta(num_doente),
-  FOREIGN KEY (data) REFERENCES consulta(data),
+  FOREIGN KEY (num_cedula, num_doente, data)
+    REFERENCES consulta(num_cedula, num_doente, data),
   FOREIGN KEY (inst) REFERENCES instituicao(nome)
   --RI: a consulta associada pode estar omissa; não estando, a especialidade da consulta tem de ser igual à do médico.
 );
@@ -145,9 +137,6 @@ CREATE TABLE prescricao_venda (
   num_venda int,
 
   PRIMARY KEY (num_cedula, num_doente, data, substancia, num_venda),
-  FOREIGN KEY (num_venda) REFERENCES venda_farmacia(num_venda),
-  FOREIGN KEY (num_cedula) REFERENCES prescricao(num_cedula),
-  FOREIGN KEY (num_doente) REFERENCES prescricao(num_doente),
-  FOREIGN KEY (data) REFERENCES prescricao(data),
-  FOREIGN KEY (substancia) REFERENCES prescricao(substancia)
+  FOREIGN KEY (num_cedula, num_doente, data, substancia)
+    REFERENCES prescricao(num_cedula, num_doente, data, substancia)
 );
