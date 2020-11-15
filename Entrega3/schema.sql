@@ -2,6 +2,7 @@
 -- AUX TABLES
 DROP TABLE nome_regiao CASCADE;
 DROP TABLE tipo_instituicao CASCADE;
+DROP TABLE nome_concelho CASCADE;
 -- PRINCIPAL TABLES
 DROP TABLE regiao CASCADE;
 DROP TABLE concelho CASCADE;
@@ -28,9 +29,10 @@ INSERT INTO tipo_instituicao VALUES
   ('farmacia'), ('laboratorio'), ('clinica'), ('hospital');
 
 CREATE TABLE nome_concelho (
-  nome varchar(24) NOT NULL UNIQUE PRIMARY KEY;
+  nome varchar(24) NOT NULL UNIQUE PRIMARY KEY
 );
 --INSERT
+
 
 -- Principal Tables
 CREATE TABLE regiao (
@@ -79,12 +81,12 @@ CREATE TABLE consulta (
   data date,
   nome_instituicao varchar(255),
 
-  CHECK (EXTRACT(DOW from data) < 6.0),
+  CHECK (EXTRACT(DOW from data) < 6), --RI-consulta-1
+  UNIQUE (num_doente, data, nome_instituicao), --RI-consulta-2
+  
   PRIMARY KEY (num_cedula, num_doente, data),
   FOREIGN KEY (num_cedula) REFERENCES medico(num_cedula),
   FOREIGN KEY (nome_instituicao) REFERENCES instituicao(nome)
-  
-  --RI-consulta-2: um doente não pode ter mais de uma consulta por dia na mesma ins tuição
 );
 
 
@@ -120,14 +122,13 @@ CREATE TABLE analise (
 
 
 CREATE TABLE venda_farmacia (
-  num_venda int,
+  num_venda int PRIMARY KEY,
   data_registo date,
   substancia varchar(255),
   quant int,
   preco int,
   inst varchar(255),
 
-  PRIMARY KEY (num_venda),
   FOREIGN KEY (inst) REFERENCES instituicao(nome)
 );
 
