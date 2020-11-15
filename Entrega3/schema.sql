@@ -19,26 +19,19 @@ DROP TABLE prescricao_venda CASCADE;
 CREATE TABLE nome_regiao (
   nome varchar(8) NOT NULL UNIQUE PRIMARY KEY
 );
-INSERT INTO nome_regiao VALUES
-  ('Norte'), ('Centro'), ('Lisboa'), ('Alentejo'), ('Algarve');
-
 CREATE TABLE tipo_instituicao (
   tipo varchar(11) PRIMARY KEY
 );
-INSERT INTO tipo_instituicao VALUES
-  ('farmacia'), ('laboratorio'), ('clinica'), ('hospital');
-
 CREATE TABLE nome_concelho (
   nome varchar(24) NOT NULL UNIQUE PRIMARY KEY
 );
---INSERT
 
 
 -- Principal Tables
 CREATE TABLE regiao (
   num_regiao int PRIMARY KEY,
   nome varchar(8) NOT NULL UNIQUE,
-  num_habitantes int,
+  num_habitantes double precision,
 
   UNIQUE(num_regiao, nome),
   FOREIGN KEY (nome) REFERENCES nome_regiao(nome)
@@ -49,7 +42,7 @@ CREATE TABLE concelho (
   num_concelho int,
   num_regiao int,
   nome varchar(24),
-  num_habitantes int,
+  num_habitantes double precision,
 
   PRIMARY KEY (num_concelho, num_regiao),
   FOREIGN KEY (num_regiao) REFERENCES regiao(num_regiao),
