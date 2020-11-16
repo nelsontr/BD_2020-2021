@@ -9,10 +9,10 @@ FROM concelho
     INNER JOIN venda_farmacia
     ON venda_farmacia.inst = instituicao.nome
 WHERE venda_farmacia.data_registo = CURRENT_DATE
-GROUP BY nome
-HAVING count(*) >= all (
-    SELECT count(*)
-    FROM concelho
+GROUP BY concelho.nome, venda_farmacia.num_vendas * venda_farmacia.preco
+HAVING count(venda_farmacia.num_vendas * venda_farmacia.preco) >= all (
+    SELECT count(venda_farmacia.num_vendas * venda_farmacia.preco)
+    FROM concelho, venda_farmacia
     GROUP BY nome);
     
 --Qual o médico que mais prescreveu no 1º semestre de 2019 em cada região?
