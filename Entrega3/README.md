@@ -9,7 +9,7 @@
 | 3    | Data e Data registo Analise | data - consulta; data registo - registo da analise           |
 | 4    | Restrições na Tabela        | meter nota se não existir forma simples                      |
 | 5    | Querry 1                    | qtd interessa? não<br /> volume económico -  mais vendas<br />venda farmácia, nome de concelho |
-| 6    | Privilégios(references...)  |
+| 6    | Privilégios(references, select,...)  |
 
 
 ## Falta
