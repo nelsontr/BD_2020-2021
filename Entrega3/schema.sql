@@ -1,8 +1,8 @@
 -- #### DROP TABLES ####
 -- AUX TABLES
+DROP TABLE nome_concelho CASCADE;
 DROP TABLE nome_regiao CASCADE;
 DROP TABLE tipo_instituicao CASCADE;
-DROP TABLE nome_concelho CASCADE;
 -- PRINCIPAL TABLES
 DROP TABLE regiao CASCADE;
 DROP TABLE concelho CASCADE;
@@ -16,15 +16,19 @@ DROP TABLE prescricao_venda CASCADE;
 
 -- #### CREATE TABLES ####
 -- AUXILIAR Tables
+CREATE TABLE nome_concelho (
+  nome varchar(24) NOT NULL UNIQUE PRIMARY KEY
+);
 CREATE TABLE nome_regiao (
   nome varchar(8) NOT NULL UNIQUE PRIMARY KEY
 );
 CREATE TABLE tipo_instituicao (
   tipo varchar(11) PRIMARY KEY
 );
-CREATE TABLE nome_concelho (
-  nome varchar(24) NOT NULL UNIQUE PRIMARY KEY
-);
+
+REVOKE ALL PRIVILEGES ON Table nome_concelho FROM public;
+REVOKE ALL PRIVILEGES ON Table nome_regiao FROM public;
+REVOKE ALL PRIVILEGES ON Table tipo_instituicao FROM public;
 
 
 -- Principal Tables
@@ -48,6 +52,9 @@ CREATE TABLE concelho (
   FOREIGN KEY (num_regiao) REFERENCES regiao(num_regiao),
   FOREIGN KEY (nome) REFERENCES nome_concelho(nome)
 );
+
+REVOKE ALL PRIVILEGES ON Table regiao FROM public;
+REVOKE ALL PRIVILEGES ON Table concelho FROM public;
 
 
 CREATE TABLE instituicao (
@@ -110,7 +117,8 @@ CREATE TABLE analise (
   FOREIGN KEY (num_cedula, num_doente, data)
     REFERENCES consulta(num_cedula, num_doente, data),
   FOREIGN KEY (inst) REFERENCES instituicao(nome)
-  --RI: a consulta associada pode estar omissa; não estando, a especialidade da consulta tem de ser igual à do médico.
+  --RI: a consulta associada pode estar omissa; não estando, 
+  -- a especialidade da consulta tem de ser igual à do médico.
 );
 
 

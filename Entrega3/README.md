@@ -15,7 +15,6 @@
 ## Falta
 
 1. Arranjar o Populate;
-2. Querry 4;
+2. Querry 3;
 3. Testar outras Querrys;
-4. Restrições de User -> Tabelas auxiliares e 2 Iniciais;
 5. (PARA DEPOIS) Pasta web

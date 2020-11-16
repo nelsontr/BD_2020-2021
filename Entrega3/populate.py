@@ -7,14 +7,14 @@ f = open('populate-aux.sql','w')
 
 nr_inst = 10
 nr_medicos = 30
-nr_doentes = 50
+nr_doentes = 30
 nr_consultas = 100
 nr_ano_max = 2020
 nr_ano_min = 2015
 qt_substancia = 1000
 nr_analises = 40
 nr_prescricoes = 0 #alterado no create_prescricao
-nr_vendas = 60
+nr_vendas = 120
 preco_max = 10.00
 nr_vendas_prescicoes = 0 #alterado no prescricao_venda
 
@@ -25,7 +25,7 @@ concelhos = {'1':2,'2':2,'3':1,'4':4,'5':2,'6':5,'7':3,'8':2,'9':2,'10':3,'11':5
 
 
 #fk
-farmacias = []
+farmacias = ['2','3','11','19']
 inst_names = []
 medico_cels = {}
 consultas_pres = []
@@ -65,7 +65,8 @@ def create_instituicoes():
         num_regiao = concelhos[str(num_concelho)]
 
         if tipo == 'farmacia':
-            farmacias.append(nome)
+            #farmacias.append(nome)
+            pass
         else:
             inst_names.append(nome)
         query += "  ('{}','{}',{},{}),\n".format(nome, tipo, num_regiao, num_concelho)
@@ -182,9 +183,9 @@ def create_venda_farmacia():
 
     subs_pres = []
 
-    for x in range(0, nr_vendas):
+    for x in range(60, nr_vendas):
         venda = x+1
-        data_registo = Data(2020,11,15)
+        data_registo = Data(2020,11,16)
         if not substancias_pres == []:
             ya = random.choice(substancias_pres)
             subs = ya[0]
