@@ -907,5 +907,11 @@ INSERT INTO venda_farmacia (num_venda, data_registo, substancia, quant, preco, i
   (120,'2020-11-16','cogumelos do tempo',370,4.40,2);
 
 INSERT INTO prescricao_venda (num_cedula, num_doente, data, substancia, num_venda) VALUES
-  (7,26,'2018-8-24','stepfen',1),
-  (5,23,'2017-8-31','viagra',2);
+  (7,26,'2018-8-24', 'stepfen', 5),
+  (5,23,'2017-8-31', 'viagra', 8),
+  (11,29,'2019-12-23', 'stepfen', 10),
+  (25,26,'2016-4-6', 'ibuprofeno', 34),
+  (28,22,'2017-2-13', 'paracetamol', 10),
+  (11,30,'2015-5-22', 'maxilase', 2),
+  (4,29,'2017-3-6', 'viagra', 3),
+  (12,18,'2016-1-15', 'calcitrin', 6);

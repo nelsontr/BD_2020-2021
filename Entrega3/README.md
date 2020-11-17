@@ -10,11 +10,12 @@
 | 4    | Restrições na Tabela        | meter nota se não existir forma simples                      |
 | 5    | Querry 1                    | qtd interessa? não<br /> volume económico -  mais vendas<br />venda farmácia, nome de concelho |
 | 6    | Privilégios(references, select,...)  |
+| 7    |  |
+| 8    |  |
 
 
 ## Falta
 
 1. Arranjar o Populate;
-2. Querry 3;
-3. Testar outras Querrys;
-5. (PARA DEPOIS) Pasta web
+2. Testar outras Querrys;
+3. (PARA DEPOIS) Pasta web

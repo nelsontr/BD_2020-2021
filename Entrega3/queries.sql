@@ -40,19 +40,28 @@ HAVING COUNT(data) >= all(
 -- QUERY 3
 -- Quais são os médicos que já prescreveram aspirina em receitas aviadas em **todas** as farmácias
 -- do concelho de Arouca este ano?
-SELECT num_cedula
+SELECT prescricao_venda.num_cedula
 FROM prescricao_venda 
     NATURAL JOIN venda_farmacia
     INNER JOIN instituicao
     ON venda_farmacia.inst = instituicao.nome
-    INNER JOIN concelho
-    ON instituicao.num_concelho = concelho.num_concelho
 WHERE prescricao_venda.substancia = 'aspirina'
     AND instituicao.tipo = 'farmacia'
-    AND concelho.nome = 'Arouca'
-    AND EXTRACT(YEAR from data) = EXTRACT(YEAR from 'CURRENT_DATE');
-
---ERRADO <-
+    AND instituicao.num_concelho = 34
+    AND EXTRACT(YEAR from prescricao_venda.data) = EXTRACT(YEAR from CURRENT_DATE)
+GROUP BY prescricao_venda.num_cedula
+HAVING COUNT(prescricao_venda.num_cedula) >= all(
+	SELECT COUNT(prescricao_venda.num_cedula)
+	FROM prescricao_venda 
+        NATURAL JOIN venda_farmacia
+        INNER JOIN instituicao
+        ON venda_farmacia.inst = instituicao.nome
+    WHERE prescricao_venda.substancia = 'aspirina'
+        AND instituicao.tipo = 'farmacia'
+        AND instituicao.num_concelho = 34
+        AND EXTRACT(YEAR from prescricao_venda.data) = EXTRACT(YEAR from CURRENT_DATE)
+    GROUP BY prescricao_venda.num_cedula
+);
 
 
 -- QUERY 4
@@ -61,10 +70,11 @@ SELECT DISTINCT num_doente
 FROM analise
 WHERE EXTRACT(MONTH from data) = EXTRACT(MONTH from CURRENT_DATE)
 	AND EXTRACT(YEAR from data) = EXTRACT(YEAR from CURRENT_DATE)
-	AND num_doente NOT IN (
+	AND num_doente NOT IN 
+        (
 		SELECT num_doente 
 		FROM prescricao_venda 
 		WHERE EXTRACT(MONTH from data) = EXTRACT(MONTH from CURRENT_DATE)
 			AND EXTRACT(YEAR from data) = EXTRACT(YEAR from CURRENT_DATE)
-	);
+	    );
 
