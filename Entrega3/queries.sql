@@ -51,16 +51,11 @@ WHERE prescricao_venda.substancia = 'aspirina'
     AND EXTRACT(YEAR from prescricao_venda.data) = EXTRACT(YEAR from CURRENT_DATE)
 GROUP BY prescricao_venda.num_cedula
 HAVING COUNT(prescricao_venda.num_cedula) >= all(
-	SELECT COUNT(prescricao_venda.num_cedula)
-	FROM prescricao_venda 
-        NATURAL JOIN venda_farmacia
-        INNER JOIN instituicao
-        ON venda_farmacia.inst = instituicao.nome
-    WHERE prescricao_venda.substancia = 'aspirina'
-        AND instituicao.tipo = 'farmacia'
+	SELECT COUNT(instituicao.nome)
+	FROM instituicao
+    WHERE instituicao.tipo = 'farmacia'
         AND instituicao.num_concelho = 34
-        AND EXTRACT(YEAR from prescricao_venda.data) = EXTRACT(YEAR from CURRENT_DATE)
-    GROUP BY prescricao_venda.num_cedula
+    GROUP BY instituicao.nome
 );
 
 
@@ -77,4 +72,3 @@ WHERE EXTRACT(MONTH from data) = EXTRACT(MONTH from CURRENT_DATE)
 		WHERE EXTRACT(MONTH from data) = EXTRACT(MONTH from CURRENT_DATE)
 			AND EXTRACT(YEAR from data) = EXTRACT(YEAR from CURRENT_DATE)
 	    );
-

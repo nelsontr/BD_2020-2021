@@ -604,8 +604,8 @@ INSERT INTO concelho(num_concelho, num_regiao, nome, num_habitantes) VALUES
 
 INSERT INTO instituicao (nome, tipo, num_regiao, num_concelho) VALUES
   ('1','hospital',5,156),
-  ('2','farmacia',4,184),
-  ('3','farmacia',2,253),
+  ('2','farmacia',2,34),
+  ('3','farmacia',2,34),
   ('4','hospital',4,86),
   ('5','hospital',2,238),
   ('6','clinica',2,192),
@@ -613,14 +613,14 @@ INSERT INTO instituicao (nome, tipo, num_regiao, num_concelho) VALUES
   ('8','hospital',1,194),
   ('9','clinica',2,179),
   ('10','clinica',1,153),
-  ('11','farmacia',2,30),
+  ('11','farmacia',2,34),
   ('12','clinica',1,113),
   ('14','clinica',1,3),
   ('15','hospital',4,208),
   ('16','hospital',1,41),
   ('17','clinica',1,110),
   ('18','clinica',2,197),
-  ('19','farmacia',3,55);
+  ('19','farmacia',2,34);
 
 INSERT INTO medico (num_cedula, nome, especialidade) VALUES
   (1,'nome 1','otorrino'),
