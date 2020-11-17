@@ -10,7 +10,7 @@
 | 4    | Restrições na Tabela        | meter nota se não existir forma simples                      |
 | 5    | Querry 1                    | qtd interessa? não<br /> volume económico -  mais vendas<br />venda farmácia, nome de concelho |
 | 6    | Privilégios(references, select,...)  |
-| 7    | ->*DROP*:<br/>Podemos colocar os DROPS no schema.sql? | Não |
+| 7    | ->**DROP** :<br/>Podemos colocar os DROPS no schema.sql? | Não |
 | 8    |  |  |
 
 
