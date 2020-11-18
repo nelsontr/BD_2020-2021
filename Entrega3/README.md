@@ -13,9 +13,9 @@
 ------------
 | Nº   | Dúvida                      | Resposta                                                     |
 | ---- | --------------------------- | ------------------------------------------------------------ |
-| 6    | Privilégios(references, select,...)  ||
-| 7    | ->**DROP** :<br/>Podemos colocar os DROPS no schema.sql? | (Talvez Não) |
-| 8    | Colocamos a pasta web no zip?<br />Ou só na 4ºEntrega? |  |
+| 6    | Privilégios(references, select,...)  | Podem meter o revoke, mas acho que só necessitam de um coment<br/>Vamos deixar estar como está. |
+| 7    | ->**DROP** :<br/>Podemos colocar os DROPS no schema.sql? | Sim, ajuda a stora |
+| 8    | Colocamos a pasta web no zip?<br />Ou só na 4ºEntrega? | Não. |
 
 
 ## Falta
