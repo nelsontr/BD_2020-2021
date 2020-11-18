@@ -68,6 +68,6 @@ WHERE EXTRACT(MONTH from data_registo) = EXTRACT(MONTH from CURRENT_DATE)
         (
 		SELECT num_cedula, num_doente, data
 		FROM prescricao_venda 
-		WHERE EXTRACT(MONTH from data_registo) = EXTRACT(MONTH from CURRENT_DATE)
-			AND EXTRACT(YEAR from data_registo) = EXTRACT(YEAR from CURRENT_DATE)
+		WHERE EXTRACT(MONTH from data) = EXTRACT(MONTH from CURRENT_DATE)
+			AND EXTRACT(YEAR from data) = EXTRACT(YEAR from CURRENT_DATE)
 	    );
