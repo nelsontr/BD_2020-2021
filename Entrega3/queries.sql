@@ -19,22 +19,22 @@ HAVING SUM(preco) >= all(
 
 -- QUERY 2
 --Qual o médico que mais prescreveu no 1º semestre de 2019 em cada região?
-SELECT num_regiao, num_cedula
-FROM prescricao
+With temp as (
+    SELECT num_regiao, num_cedula, COUNT(num_doente) as count
+    FROM prescricao
     NATURAL JOIN consulta
     INNER JOIN instituicao
     ON consulta.nome_instituicao = instituicao.nome
-WHERE prescricao.data >= '2019/01/01' and prescricao.data <= '2019/06/30'
-GROUP BY num_regiao, num_cedula
-HAVING COUNT(data) >= all(
-	SELECT COUNT(data)
-	FROM prescricao
-    NATURAL JOIN consulta
-    INNER JOIN instituicao
-    ON consulta.nome_instituicao = instituicao.nome
-	WHERE prescricao.data >= '2019/01/01' and prescricao.data <= '2019/06/30'
-	GROUP BY num_regiao, num_cedula
-);
+    WHERE prescricao.data >= '2019/01/01' and prescricao.data <= '2019/06/30'
+    GROUP BY num_regiao,num_cedula
+    ORDER BY num_regiao ASC
+)
+
+SELECT num_regiao, num_cedula, count 
+FROM temp sub 
+    NATURAL JOIN 
+    (SELECT num_regiao,MAX(sub.count) as count 
+        FROM temp sub GROUP BY num_regiao) sub2;
 
 
 -- QUERY 3
@@ -50,12 +50,11 @@ WHERE prescricao_venda.substancia = 'aspirina'
     AND instituicao.num_concelho = 34
     AND EXTRACT(YEAR from prescricao_venda.data) = EXTRACT(YEAR from CURRENT_DATE)
 GROUP BY prescricao_venda.num_cedula
-HAVING COUNT(prescricao_venda.num_cedula) >= all(
+HAVING COUNT(DISTINCT instituicao.nome) >= all(
 	SELECT COUNT(instituicao.nome)
 	FROM instituicao
     WHERE instituicao.tipo = 'farmacia'
         AND instituicao.num_concelho = 34
-    GROUP BY instituicao.nome
 );
 
 
@@ -63,12 +62,12 @@ HAVING COUNT(prescricao_venda.num_cedula) >= all(
 -- Quais são os doentes que já fizeram análises mas ainda não aviaram prescrições este mês?
 SELECT DISTINCT num_doente 
 FROM analise
-WHERE EXTRACT(MONTH from data) = EXTRACT(MONTH from CURRENT_DATE)
-	AND EXTRACT(YEAR from data) = EXTRACT(YEAR from CURRENT_DATE)
+WHERE EXTRACT(MONTH from data_registo) = EXTRACT(MONTH from CURRENT_DATE)
+	AND EXTRACT(YEAR from data_registo) = EXTRACT(YEAR from CURRENT_DATE)
 	AND num_doente NOT IN 
         (
 		SELECT num_doente 
 		FROM prescricao_venda 
-		WHERE EXTRACT(MONTH from data) = EXTRACT(MONTH from CURRENT_DATE)
-			AND EXTRACT(YEAR from data) = EXTRACT(YEAR from CURRENT_DATE)
+		WHERE EXTRACT(MONTH from data_registo) = EXTRACT(MONTH from CURRENT_DATE)
+			AND EXTRACT(YEAR from data_registo) = EXTRACT(YEAR from CURRENT_DATE)
 	    );
