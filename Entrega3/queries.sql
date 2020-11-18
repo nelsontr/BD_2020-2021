@@ -64,9 +64,9 @@ SELECT DISTINCT num_doente
 FROM analise
 WHERE EXTRACT(MONTH from data_registo) = EXTRACT(MONTH from CURRENT_DATE)
 	AND EXTRACT(YEAR from data_registo) = EXTRACT(YEAR from CURRENT_DATE)
-	AND num_doente NOT IN 
+	AND (num_cedula, num_doente, data) NOT IN 
         (
-		SELECT num_doente 
+		SELECT num_cedula, num_doente, data
 		FROM prescricao_venda 
 		WHERE EXTRACT(MONTH from data_registo) = EXTRACT(MONTH from CURRENT_DATE)
 			AND EXTRACT(YEAR from data_registo) = EXTRACT(YEAR from CURRENT_DATE)
