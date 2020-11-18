@@ -1,5 +1,14 @@
---####  QUERRIES TO PROBLEMS  ####
+-- ################################################################################################
+--  GRUPO 50
+--    93695 Catarina Sofia dos Santos Sousa 33% 5h
+--    93743 Nelson Alexandre Geada Trindade 34% 5h
+--    93754 Rodrigo Rodrigues Major 33% 5h
+-- ################################################################################################
 
+
+-- ################################################################################################
+-- ####################################  QUERRIES TO PROBLEMS  ####################################
+-- ################################################################################################
 -- QUERY 1
 -- Qual o concelho onde se fez o maior volume de vendas hoje?
 SELECT i.num_concelho
@@ -16,9 +25,9 @@ HAVING SUM(preco) >= all(
     WHERE v.data_registo = CURRENT_DATE
     GROUP BY num_concelho);
 
-
+-- ################################################################################################
 -- QUERY 2
---Qual o médico que mais prescreveu no 1º semestre de 2019 em cada região?
+-- Qual o médico que mais prescreveu no 1º semestre de 2019 em cada região?
 With temp as (
     SELECT num_regiao, num_cedula, COUNT(num_doente) as count
     FROM prescricao
@@ -36,10 +45,10 @@ FROM temp sub
     (SELECT num_regiao,MAX(sub.count) as count 
         FROM temp sub GROUP BY num_regiao) sub2;
 
-
+-- ################################################################################################
 -- QUERY 3
--- Quais são os médicos que já prescreveram aspirina em receitas aviadas em **todas** as farmácias
--- do concelho de Arouca este ano?
+-- Quais são os médicos que já prescreveram aspirina em receitas aviadas em todas
+-- as farmácias do concelho de Arouca este ano?
 SELECT prescricao_venda.num_cedula
 FROM prescricao_venda 
     NATURAL JOIN venda_farmacia
@@ -57,7 +66,7 @@ HAVING COUNT(DISTINCT instituicao.nome) >= all(
         AND instituicao.num_concelho = 34
 );
 
-
+-- ################################################################################################
 -- QUERY 4
 -- Quais são os doentes que já fizeram análises mas ainda não aviaram prescrições este mês?
 SELECT DISTINCT num_doente 
@@ -71,3 +80,5 @@ WHERE EXTRACT(MONTH from data_registo) = EXTRACT(MONTH from CURRENT_DATE)
 		WHERE EXTRACT(MONTH from data) = EXTRACT(MONTH from CURRENT_DATE)
 			AND EXTRACT(YEAR from data) = EXTRACT(YEAR from CURRENT_DATE)
 	    );
+
+-- ################################################################################################

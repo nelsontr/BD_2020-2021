@@ -1,4 +1,14 @@
--- #### DROP TABLES ####
+-- ################################################################################################
+--  GRUPO 50
+--    93695 Catarina Sofia dos Santos Sousa 33% 5h
+--    93743 Nelson Alexandre Geada Trindade 34% 5h
+--    93754 Rodrigo Rodrigues Major 33% 5h
+-- ################################################################################################
+
+
+-- ################################################################################################
+-- #######################################  DROP TABLES  ##########################################
+-- ################################################################################################
 -- AUX TABLES
 DROP TABLE nome_concelho CASCADE;
 DROP TABLE nome_regiao CASCADE;
@@ -14,17 +24,13 @@ DROP TABLE analise CASCADE;
 DROP TABLE venda_farmacia CASCADE;
 DROP TABLE prescricao_venda CASCADE;
 
--- #### CREATE TABLES ####
+-- ################################################################################################
+-- #####################################  CREATE TABLES  ##########################################
+-- ################################################################################################
 -- AUXILIAR Tables
-CREATE TABLE nome_concelho (
-  nome varchar(24) NOT NULL UNIQUE PRIMARY KEY
-);
-CREATE TABLE nome_regiao (
-  nome varchar(8) NOT NULL UNIQUE PRIMARY KEY
-);
-CREATE TABLE tipo_instituicao (
-  tipo varchar(11) PRIMARY KEY
-);
+CREATE TABLE nome_concelho ( nome varchar(24) NOT NULL UNIQUE PRIMARY KEY );
+CREATE TABLE nome_regiao ( nome varchar(8) NOT NULL UNIQUE PRIMARY KEY );
+CREATE TABLE tipo_instituicao ( tipo varchar(11) PRIMARY KEY );
 
 REVOKE ALL PRIVILEGES ON Table nome_concelho FROM public;
 REVOKE ALL PRIVILEGES ON Table nome_regiao FROM public;

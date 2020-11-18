@@ -15,12 +15,14 @@
 
 -------
 
-## Relatório
+
+
+## Relatório (colocado)
+
 Para a query 1, utilizar data = '2020-11-16' em vez de CURRENT_DATE;
 Para a query 4, utilizar EXTRACT(MONTH from date '2019-5-1') e EXTRACT(YEAR from date '2019-5-1');
 
 
 ## Falta
 
-1. Testar as Querrys, meter o populate com exemplos que corroborem as querrys;
-2. (PARA DEPOIS) Pasta web
+1. (PARA DEPOIS) Pasta web
