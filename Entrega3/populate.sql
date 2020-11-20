@@ -649,6 +649,7 @@ INSERT INTO medico (num_cedula, nome, especialidade) VALUES
   (14,'Medico 14','cardiologista'),
   (15,'Medico 15','oftalmologista');
 
+
 INSERT INTO consulta (num_cedula, num_doente, data, nome_instituicao) VALUES
   (4,65,'2019-3-26','Instituicao 9'),
   (9,97,'2019-8-19','Instituicao 14'),

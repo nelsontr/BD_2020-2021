@@ -87,7 +87,7 @@ CREATE TABLE consulta (
   data date,
   nome_instituicao varchar(255),
 
-  CHECK (EXTRACT(DOW from data) < 6), --RI-consulta-1
+  CHECK (EXTRACT(ISODOW from data) < 6), --RI-consulta-1
   UNIQUE (num_doente, data, nome_instituicao), --RI-consulta-2
   
   PRIMARY KEY (num_cedula, num_doente, data),
