@@ -66,8 +66,10 @@ for each row execute procedure verifica_especialidade();
 ​	São os melhores para seleção por igualdade;
 
 ​	Há uma estrutura;
-
-	Criar um índice do tipo Hash para o atributo especialidade da tabela medico porque fica dividido por vários contentores e assim cada contentor guarda um conjunto de entradas e o acesso fica otimizado através da função de dispersão.
+ 
+ Criar um índice do tipo Hash para o atributo especialidade da tabela medico porque fica dividido            
+ por vários contentores e assim cada contentor guarda um conjunto de entradas e o acesso fica otimizado 
+ através da função de dispersão.
 
 ##### Query 3:
 
