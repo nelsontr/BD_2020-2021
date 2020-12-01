@@ -50,3 +50,30 @@ begin
 create trigger verifica_especialidade_trigger before insert on analise
 for each row execute procedure verifica_especialidade();
 ```
+
+
+
+## ÍNDICES (???)
+
+##### Query 1:
+
+​	-> Criar um índice, na tabela consulta para o atributo num_doente;
+
+##### Query 2:
+
+​	Provavelmente, índice do tipo Hash:
+
+​	São os melhores para seleção por igualdade;
+
+​	Há uma estrutura;
+
+##### Query 3:
+
+##### Query 4:
+
+​	Provavelmente, índice do tipo BTree:
+
+​	As folhas do índice estão sempre ordenadas e é útil na procura de "ranges" (maior, menor, entre);
+
+​	Criar um índice do tipo BTree para o atributo "data" da tabela consulta para otimizar a comparação entre as duas datas dadas;
+

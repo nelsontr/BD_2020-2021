@@ -5,7 +5,7 @@
 | Nº   | Dúvida                      | Resposta                                                     |
 | ---- | --------------------------- | ------------------------------------------------------------ |
 |  1   | Se a consulta inserida for dia 1 de janeiro, <br /> conta como a mesma semana de 31 de dezembro?     |          |
-|      |        |          |
+|  2   | Como não há consultas ao Domingo, não há <br /> difernça entre a semana começar a contar no domingo <br /> ou na segunda, certo?    |          |
 |      |        |          |
 |      |        |          |
 |      |        |          |
