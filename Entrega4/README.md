@@ -4,7 +4,7 @@
 
 | Nº   | Dúvida                      | Resposta                                                     |
 | ---- | --------------------------- | ------------------------------------------------------------ |
-|  1   | Se a consulta inserida for dia 1 de janeiro, conta como a mesma semana de 31 de dezembro?     |          |
+|  1   | Se a consulta inserida for dia 1 de janeiro, <br /> conta como a mesma semana de 31 de dezembro?     |          |
 |      |        |          |
 |      |        |          |
 |      |        |          |
