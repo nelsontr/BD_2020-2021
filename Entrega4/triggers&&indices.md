@@ -75,5 +75,5 @@ for each row execute procedure verifica_especialidade();
 
 ​	As folhas do índice estão sempre ordenadas e é útil na procura de "ranges" (maior, menor, entre);
 
-​	Criar um índice do tipo BTree para o atributo "data" da tabela consulta para otimizar a comparação entre as duas datas dadas;
+​	Criar um índice do tipo BTree para o atributo "data" da tabela consulta para otimizar a comparação entre as duas datas dadas. Esta otimização acontece porque as folhas do índice estão sempre ordenadas.
 
