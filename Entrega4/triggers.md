@@ -14,7 +14,7 @@ begin
 	and EXTRACT(WEEK from c.data) = EXTRACT(WEEK from new.data);
 	
 	if consultas >= 100 then
-		raise exception 'O médico % não pode dar mais de 100 consultas por semana na mesma instituição', new.num_cedula;
+		raise exception 'O médico % não pode dar mais de 100 consultas por semana na mesma instituição.', new.num_cedula;
   	end if;
   return new;
  
@@ -31,14 +31,22 @@ for each row execute procedure verifica_medico();
 drop trigger if exists verifica_especialidade_trigger on analise;
 
 create or replace function verifica_especialidade() returns trigger as $$
+declare especialidade char(25)
 begin
+	select m.especialidade into especialidade
+	from consulta c natural join medico m
+	where c.num_cedula = new.num_cedula
+	and c.num_doente = new.num_doente
+	and c.data = new.data;
 	
+	if especialidade != new.especialidade then
+		raise exception 'O médico % não tem a especialidade necessária para analisar.', new.num_cedula;
+  	end if;
   return new;
  
  END;
  $$ Language plpgsql;
  
-create trigger verifica_medico_trigger before insert on consulta
-for each row execute procedure verifica_medico();
+create trigger verifica_especialidade_trigger before insert on analise
+for each row execute procedure verifica_especialidade();
 ```
-
