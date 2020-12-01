@@ -1,0 +1,36 @@
+<doctype html>
+<title>List accounts - Flask</title>
+<body style="padding:20px">
+  {% if cursor %}
+  <table border="3px">
+    <thead>
+      <tr>
+        <th><p1><a href="medico/insert"> Inserir Médico</a></p1></th>
+      </tr>
+    </thead>
+  <br/><br/>
+    <table border="2px">
+      <thead>
+        <tr>
+          <th>Numero de Cédula</th>
+          <th>Nome</th>
+          <th>Especialidade</th>
+        </tr>
+      </thead>
+      <tbody>      
+        {% for record in cursor %}
+          <tr>
+            <td>{{ record[0] }}</td>
+            <td>{{ record[1] }}</td>
+            <td>{{ record[2] }}</td>
+            <td><a href="medico/update?num_cedula={{ record[0] }}&nome={{record[1]}}&especialidade={{record[2]}}"> Alterar Médico</a></td>
+            <td><a href="medico/delete?num_cedula={{ record[0] }}">Remover Médico</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p> Erro: ao obter dados da base de dados!</p>
+  {% endif %}
+</body>
+</doctype>

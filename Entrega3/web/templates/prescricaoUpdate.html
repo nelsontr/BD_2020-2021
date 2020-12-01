@@ -1,0 +1,18 @@
+<html>
+    <body>
+        <h3>Alterar Prescricao</h3>
+        <form action="update/done" method="post">
+            <p><input type="hidden" name="num_cedula" value="{{ params.get('num_cedula') }}"/></p>
+            <p><input type="hidden" name="num_doente" value="{{ params.get('num_doente') }}"/></p>
+            <p><input type="hidden" name="data" value="{{ params.get('data') }}"/></p>
+            <p><input type="hidden" name="substancia" value="{{ params.get('substancia') }}"/></p>
+
+            <p>Num_Cedula: <input type="number" name="num_cedulaNovo" value="{{ params.get('num_cedula') }}"/></p>
+            <p>Num_Doente: <input type="number" name="num_doenteNovo" value="{{ params.get('num_doente') }}"/></p>
+            <p>Data: <input type="text" name="dataNovo" value="{{ params.get('data') }}"/></p>
+            <p>Substancia: <input type="text" name="substanciaNovo" value="{{ params.get('substancia') }}"/></p>
+            <p>Quantidade: <input type="number" name="quantidade" value="{{ params.get('quantidade') }}"/></p>
+            <p><input type="submit" value="Submit"/></p>
+        </form>
+    </body>
+</html>

@@ -1,0 +1,13 @@
+<html>
+    <body>
+        <h3>Adicionar {{ params.get("nome") }}</h3>
+        <form action="insert/done" method="post">
+            <p><input type="hidden" name="nome" value="{{ params.get('nome') }}"/></p>
+            <p>Nome: <input type="text" name="nome_novo" value="{{ params.get('nome') }}"/></p>
+            <p>Tipo: <input type="text" name="tipo" value="{{ params.get('tipo') }}"/></p>
+            <p>Num Regiao: <input type="number" name="regiao" value="{{ params.get('regiao') }}"/></p>
+            <p>Num Concelho: <input type="number" name="concelho" value="{{ params.get('concelho') }}"/></p>
+            <p><input type="submit" value="Submit"/></p>
+        </form>
+    </body>
+</html>
