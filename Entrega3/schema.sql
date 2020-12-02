@@ -48,6 +48,7 @@ CREATE TABLE regiao (
 );
 
 
+
 CREATE TABLE concelho (
   num_concelho int,
   num_regiao int,
@@ -89,11 +90,12 @@ CREATE TABLE consulta (
 
   CHECK (EXTRACT(ISODOW from data) < 6), --RI-consulta-1
   UNIQUE (num_doente, data, nome_instituicao), --RI-consulta-2
-  
+
   PRIMARY KEY (num_cedula, num_doente, data),
   FOREIGN KEY (num_cedula) REFERENCES medico(num_cedula),
   FOREIGN KEY (nome_instituicao) REFERENCES instituicao(nome)
 );
+
 
 
 CREATE TABLE prescricao (
@@ -123,9 +125,10 @@ CREATE TABLE analise (
   FOREIGN KEY (num_cedula, num_doente, data)
     REFERENCES consulta(num_cedula, num_doente, data),
   FOREIGN KEY (inst) REFERENCES instituicao(nome)
-  --RI: a consulta associada pode estar omissa; não estando, 
+  --RI: a consulta associada pode estar omissa; não estando,
   -- a especialidade da consulta tem de ser igual à do médico.
 );
+
 
 
 CREATE TABLE venda_farmacia (
@@ -140,6 +143,7 @@ CREATE TABLE venda_farmacia (
 );
 
 
+
 CREATE TABLE prescricao_venda (
   num_cedula int,
   num_doente int,
@@ -151,3 +155,7 @@ CREATE TABLE prescricao_venda (
   FOREIGN KEY (num_cedula, num_doente, data, substancia)
     REFERENCES prescricao(num_cedula, num_doente, data, substancia)
 );
+
+alter table prescricao_venda drop constraint prescricao_venda_num_cedula_num_doente_data_substancia_fkey;
+alter table venda_farmacia add constraint prescricao_venda_num_cedula_num_doente_data_substancia_fkey foreign key(num_cedula, num_doente, data, substancia)
+  references prescricao(num_cedula, num_doente, data, substancia) on delete cascade;

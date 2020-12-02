@@ -1,17 +1,27 @@
 <doctype html>
-  <title>List Substancias</title>
+  <title>List Venda_farmacia</title>
   <body style="padding: 20px">
     {% if cursor %}
     <table border="2px">
       <thead>
         <tr>
+          <th>Numero Venda</th>
+          <th>Data Registo</th>
           <th>Substancia</th>
+          <th>Quantidade</th>
+          <th>Preço</th>
+          <th>Instituiçao</th>
         </tr>
       </thead>
       <tbody>
         {% for record in cursor %}
         <tr>
           <td>{{ record[0] }}</td>
+          <td>{{ record[1] }}</td>
+          <td>{{ record[2] }}</td>
+          <td>{{ record[3] }}</td>
+          <td>{{ record[4] }}</td>
+          <td>{{ record[5] }}</td>
         </tr>
         {% endfor %}
       </tbody>

@@ -426,9 +426,9 @@ def perguntae_done():
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
     cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
     query = f'''SELECT DISTINCT(substancia)
-    FROM prescricao
-    WHERE EXTRACT(MONTH from data)={request.form["data"]}
-    AND EXTRACT(YEAR from data)=EXTRACT(YEAR from CURRENT_DATE);'''
+        FROM prescricao
+        WHERE EXTRACT(MONTH from data)={request.form["data"]}
+        AND EXTRACT(YEAR from data)=EXTRACT(YEAR from CURRENT_DATE);'''
     cursor.execute(query)
     return render_template("perguntaeTable.html", cursor=cursor, params=request.args)
   except Exception as e:
@@ -439,15 +439,15 @@ def perguntae_done():
     dbConn.close()
 
 
-@app.route('/perguntac')
-def perguntac_form():
+@app.route('/registoVenda')
+def registoVenda_form():
   try:
-    return render_template("perguntac.html", params=request.args)
+    return render_template("registoVenda.html", params=request.args)
   except Exception as e:
     return str(e)
 
 @app.route('/venda_farmacia')
-def perguntac_list():
+def venda_farmacia_list():
   dbConn=None
   cursor=None
   try:
@@ -455,15 +455,15 @@ def perguntac_list():
     cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
     query = "SELECT * FROM venda_farmacia ORDER BY num_venda DESC;"
     cursor.execute(query)
-    return render_template("perguntacTable.html", cursor=cursor, params=request.args)
+    return render_template("venda_farmacia.html", cursor=cursor, params=request.args)
   except Exception as e:
     return str(e)
   finally:
     cursor.close()
     dbConn.close()
 
-@app.route('/prescricao_farmacia')
-def perguntac_prescricao_farmacia():
+@app.route('/prescricao_venda')
+def prescricao_venda_list():
   dbConn=None
   cursor=None
   try:
@@ -471,53 +471,46 @@ def perguntac_prescricao_farmacia():
     cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
     query = "SELECT * FROM prescricao_venda ORDER BY num_venda DESC;"
     cursor.execute(query)
-    return render_template("perguntacTable.html", cursor=cursor, params=request.args)
+    return render_template("prescricao_venda.html", cursor=cursor, params=request.args)
   except Exception as e:
     return str(e)
   finally:
     cursor.close()
     dbConn.close()
 
-@app.route('/perguntac/prescricao', methods=["POST"])
-def perguntac_prescricao():
+@app.route('/registoVenda/prescricao', methods=["POST"])
+def registoVenda_prescricao():
   dbConn=None
   cursor=None
   try:
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
     cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
     query =\
-    f'''create or replace function last_venda()
-    	returns decimal (20,2) AS
-    $$
-    	declare lastvenda decimal (20,2);
-     begin
-        SELECT num_venda into lastvenda
-        FROM venda_farmacia
-    	ORDER BY num_venda DESC
-    	LIMIT 1;
-    	return lastvenda;
-    End;
-    $$ Language plpgsql;
-
-    INSERT INTO venda_farmacia
-    SELECT last_venda()+1 as num_venda, data as data_registo, substancia, quant,random()*10 as preco,nome_instituicao as inst
+    f'''INSERT INTO venda_farmacia
+    SELECT (SELECT num_venda
+    FROM venda_farmacia
+    ORDER BY num_venda DESC
+    LIMIT 1)+1 as num_venda, data as data_registo, substancia, quant,random()*10 as preco,nome_instituicao as inst
     FROM prescricao NATURAL JOIN consulta
     WHERE num_cedula={request.form["num_cedula"]}
     AND num_doente={request.form["num_doente"]}
     AND data='{request.form["data"]}'
-    AND substancia='{request.form["substancia"]}';
-
-    INSERT INTO prescricao_venda
-    SELECT num_cedula, num_doente, data, substancia, last_venda() as num_venda
-    FROM prescricao NATURAL JOIN consulta
-    WHERE num_cedula={request.form["num_cedula"]}
-    AND num_doente={request.form["num_doente"]}
-    AND data='{request.form["data"]}'
-    AND substancia='{request.form["substancia"]}';
-
-    '''
+    AND substancia='{request.form["substancia"]}';'''
     cursor.execute(query)
-    return redirect('/prescricao_farmacia')
+
+    query =\
+    f'''INSERT INTO prescricao_venda
+    SELECT num_cedula, num_doente, data, substancia, (SELECT num_venda
+    FROM venda_farmacia
+    ORDER BY num_venda DESC
+    LIMIT 1) as num_venda
+    FROM prescricao NATURAL JOIN consulta
+    WHERE num_cedula={request.form["num_cedula"]}
+    AND num_doente={request.form["num_doente"]}
+    AND data='{request.form["data"]}'
+    AND substancia='{request.form["substancia"]}';'''
+    cursor.execute(query)
+    return redirect('/prescricao_venda')
   except Exception as e:
     return str(e)
   finally:
@@ -525,8 +518,8 @@ def perguntac_prescricao():
     cursor.close()
     dbConn.close()
 
-@app.route('/perguntac/venda', methods=["POST"])
-def perguntac_venda():
+@app.route('/registoVenda/vendaUnica', methods=["POST"])
+def registoVenda_venda():
   dbConn=None
   cursor=None
   try:
@@ -536,7 +529,7 @@ def perguntac_venda():
       {request.form["num_venda"]},'{request.form["data"]}','{request.form["substancia"]}',
       {request.form["quantidade"]},{request.form["preco"]},'{request.form["instituicao"]}');'''
     cursor.execute(query)
-    return redirect("/perguntac/view")
+    return redirect("/venda_farmacia")
   except Exception as e:
     return str(e)
   finally:
