@@ -15,7 +15,7 @@
 
 ## Relatório
 
-
+Na tabela prescrição venda, o atributo num_venda passou a ser UNIQUE;
 
 
 ## Falta
