@@ -66,6 +66,10 @@ for each row execute procedure verifica_especialidade();
 ​	São os melhores para seleção por igualdade;
 
 ​	Há uma estrutura;
+ 
+ Criar um índice do tipo Hash para o atributo especialidade da tabela medico porque fica dividido            
+ por vários contentores e assim cada contentor guarda um conjunto de entradas e o acesso fica otimizado 
+ através da função de dispersão.
 
 ##### Query 3:
 
@@ -75,5 +79,5 @@ for each row execute procedure verifica_especialidade();
 
 ​	As folhas do índice estão sempre ordenadas e é útil na procura de "ranges" (maior, menor, entre);
 
-​	Criar um índice do tipo BTree para o atributo "data" da tabela consulta para otimizar a comparação entre as duas datas dadas;
+​	Criar um índice do tipo BTree para o atributo "data" da tabela consulta para otimizar a comparação entre as duas datas dadas. Esta otimização acontece porque as folhas do índice estão sempre ordenadas.
 
