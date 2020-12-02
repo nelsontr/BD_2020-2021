@@ -58,9 +58,9 @@ for each row execute procedure verifica_especialidade();
 
 ##### Query 1:
 
-​	-> (Se for criado um índice para o trio): Criar um índice, na tabela consulta para o atributo num_doente;
+​	-> (Se for criado um índice para o trio): Criar um índice, na tabela consulta para o atributo num_doente; 
 
-​	-> (Se for criado um índice por cada atributo que é chave): não é necessário criar nenhum índice porque é criado implicitamente para as chaves primárias e assim, o atributo num_doente, sendo chave da tabela consulta já tem um índice associado.
+​	-> (Se for criado um índice por cada atributo que é chave): não é necessário criar nenhum índice porque é criado implicitamente para as chaves primárias e assim, o atributo num_doente, sendo chave da tabela consulta já tem um índice associado. Pode ser preciso alterar a ordem dos campos das chaves primárias na declaração da tabela consulta para que o num_doente seja o primeiro atributo;
 
 ##### Query 2:
 
@@ -75,6 +75,21 @@ for each row execute procedure verifica_especialidade();
  através da função de dispersão.
 
 ##### Query 3:
+Blocos do disco são de 2KBytes e cada registo ocupa 1kByte, ou seja, cada bloco leva 2 registos. Seletividade de (1/6) = 0.16666667 ou seja, a probabilidade de um bloco não ter respostas é de (1-0.16666667)^2 (por serem dois registos por bloco), que é aproximadamente 69%. Logo, teremos de ler 31% dos blocos. Quanto menor for a resposta, maior é o benefício dos índices a reduzir leituras do disco. Assim, é útil, criar um índice.
+(???) do tipo Hash na tabela medico no atributo especialidade:
+CREATE INDEX index_especialidade ON medico(especialidade)
+
+​	Provavelmente, índice do tipo Hash:
+
+​	São os melhores para seleção por igualdade;
+
+​	Há uma estrutura;
+ 
+ Criar um índice do tipo Hash para o atributo especialidade da tabela medico porque fica dividido            
+ por vários contentores e assim cada contentor guarda um conjunto de entradas e o acesso fica otimizado 
+ através da função de dispersão.
+ 
+ 
 
 ##### Query 4:
 
@@ -82,5 +97,10 @@ for each row execute procedure verifica_especialidade();
 
 ​	As folhas do índice estão sempre ordenadas e é útil na procura de "ranges" (maior, menor, entre);
 
-​	Criar um índice do tipo BTree para o atributo "data" da tabela consulta para otimizar a comparação entre as duas datas dadas. Esta otimização acontece porque as folhas do índice estão sempre ordenadas.
+​	Como num_cedula é foreign key na tabela consulta, não tem nenhum índice criado implicitamente. Assim, é útil criar um índice na tabela consulta no atributo num_cedula. 
+CREATE INDEX idx_cedula on consulta(num_cedula).
 
+​	Criar um índice do tipo BTree para o atributo "data" da tabela consulta para otimizar a comparação entre as duas datas dadas. Esta otimização acontece porque as folhas do índice estão sempre ordenadas, .
+CREATE INDEX idx_data on consulta USING B-TREE(data)
+
+	
