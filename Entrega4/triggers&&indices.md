@@ -56,13 +56,13 @@ for each row execute procedure verifica_especialidade();
 
 ## ÍNDICES (???)
 
-##### Query 1:
+#### Query 1:
 
 ​	-> (Se for criado um índice para o trio): Criar um índice, na tabela consulta para o atributo num_doente; 
 
 ​	-> (Se for criado um índice por cada atributo que é chave): não é necessário criar nenhum índice porque é criado implicitamente para as chaves primárias e assim, o atributo num_doente, sendo chave da tabela consulta já tem um índice associado. Pode ser preciso alterar a ordem dos campos das chaves primárias na declaração da tabela consulta para que o num_doente seja o primeiro atributo;
 
-##### Query 2:
+#### Query 2:
 
 ​	Provavelmente, índice do tipo Hash:
 
@@ -74,7 +74,7 @@ for each row execute procedure verifica_especialidade();
  por vários contentores e assim cada contentor guarda um conjunto de entradas e o acesso fica otimizado 
  através da função de dispersão.
 
-##### Query 3:
+#### Query 3:
 Blocos do disco são de 2KBytes e cada registo ocupa 1kByte, ou seja, cada bloco leva 2 registos. Seletividade de (1/6) = 0.16666667 ou seja, a probabilidade de um bloco não ter respostas é de (1-0.16666667)^2 (por serem dois registos por bloco), que é aproximadamente 69%. Logo, teremos de ler 31% dos blocos. Quanto menor for a resposta, maior é o benefício dos índices a reduzir leituras do disco. Assim, é útil, criar um índice.
 (???) do tipo Hash na tabela medico no atributo especialidade:
 CREATE INDEX index_especialidade ON medico(especialidade)
@@ -91,7 +91,7 @@ CREATE INDEX index_especialidade ON medico(especialidade)
  
  
 
-##### Query 4:
+#### Query 4:
 
 ​	Provavelmente, índice do tipo BTree:
 
