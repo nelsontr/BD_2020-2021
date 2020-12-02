@@ -23,3 +23,7 @@ Escrever todos os passos para se conseguir testar a pasta web
 ## Falta
 
 1. web/ <- Ver injection prevention - PowerPoint flask
+2. testar triggers
+3. índices
+4. etl.sql
+5. olap.sql
