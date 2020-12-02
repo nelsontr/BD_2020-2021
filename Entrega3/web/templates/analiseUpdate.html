@@ -1,0 +1,17 @@
+<html>
+    <body>
+        <h3>Alterar Prescricao</h3>
+        <form action="update/done" method="post">
+            <p>Numero de Análise: <input type="number" name="num_analise" value="{{ params.get('num_analise') }}"/></p>
+            <p>Especialidade: <input type="text" name="especialidade" value="{{ params.get('especialidade') }}"/></p>
+            <p>Numero de Cédula: <input type="number" name="num_cedula" value="{{ params.get('num_cedula') }}"/></p>
+            <p>Numero de Doente: <input type="number" name="num_doente" value="{{ params.get('num_doente') }}"/></p>
+            <p>Data: <input type="text" name="data" value="{{ params.get('data') }}"/></p>
+            <p>Data Registo: <input type="text" name="data_registo" value="{{ params.get('data_registo') }}"/></p>
+            <p>Nome: <input type="text" name="nome" value="{{ params.get('nome') }}"/></p>
+            <p>Quantidade: <input type="number" name="quantidade" value="{{ params.get('quantidade') }}"/></p>
+            <p>Instituição: <input type="text" name="instituicao" value="{{ params.get('instituicao') }}"/></p>
+            <p><input type="submit" value="Submit"/></p>
+        </form>
+    </body>
+</html>

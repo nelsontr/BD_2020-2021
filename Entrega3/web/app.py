@@ -2,7 +2,7 @@
 
 from wsgiref.handlers import CGIHandler
 from flask import Flask
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, url_for
 
 ## Libs postgres
 import psycopg2
@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 ## SGBD configs
 DB_HOST="localhost"
-DB_USER="postgres" 
+DB_USER="postgres"
 DB_DATABASE=DB_USER
 DB_PASSWORD="NT18/19"
 DB_CONNECTION_STRING = "host=%s dbname=%s user=%s password=%s" % (DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD)
@@ -38,7 +38,7 @@ def list_instituicao_edit():
     print(cursor.execute(query))
     return render_template("instituicao.html", cursor=cursor, params=request.args)
   except Exception as e:
-    return str(e) 
+    return str(e)
   finally:
     cursor.close()
     dbConn.close()
@@ -63,7 +63,7 @@ def insert_instituicao_done():
     cursor.execute(query)
     return redirect('/instituicao')
   except Exception as e:
-    return str(e) 
+    return str(e)
   finally:
     dbConn.commit()
     cursor.close()
@@ -94,7 +94,7 @@ def update_instituicao_done():
     cursor.execute(query)
     return redirect('/instituicao')
   except Exception as e:
-    return str(e) 
+    return str(e)
   finally:
     dbConn.commit()
     cursor.close()
@@ -112,7 +112,7 @@ def delete_instituicao():
     cursor.execute(query)
     return redirect('/instituicao')
   except Exception as e:
-    return str(e) 
+    return str(e)
   finally:
     dbConn.commit()
     cursor.close()
@@ -131,7 +131,7 @@ def list_medico_edit():
     print(cursor.execute(query))
     return render_template("medico.html", cursor=cursor, params=request.args)
   except Exception as e:
-    return str(e) 
+    return str(e)
   finally:
     cursor.close()
     dbConn.close()
@@ -155,7 +155,7 @@ def insert_medico_done():
     cursor.execute(query)
     return redirect('/medico')
   except Exception as e:
-    return str(e) 
+    return str(e)
   finally:
     dbConn.commit()
     cursor.close()
@@ -185,7 +185,7 @@ def update_medico_done():
     cursor.execute(query)
     return redirect('/medico')
   except Exception as e:
-    return str(e) 
+    return str(e)
   finally:
     dbConn.commit()
     cursor.close()
@@ -203,13 +203,13 @@ def delete_medico():
     cursor.execute(query)
     return redirect('/medico')
   except Exception as e:
-    return str(e) 
+    return str(e)
   finally:
     dbConn.commit()
     cursor.close()
     dbConn.close()
 
-  
+
 
 
 @app.route('/prescricao')
@@ -223,7 +223,7 @@ def list_prescricao_edit():
     print(cursor.execute(query))
     return render_template("prescricao.html", cursor=cursor, params=request.args)
   except Exception as e:
-    return str(e) 
+    return str(e)
   finally:
     cursor.close()
     dbConn.close()
@@ -247,7 +247,7 @@ def insert_prescricao_done():
     cursor.execute(query)
     return redirect('/prescricao')
   except Exception as e:
-    return str(e) 
+    return str(e)
   finally:
     dbConn.commit()
     cursor.close()
@@ -282,7 +282,7 @@ def update_prescricao_done():
     cursor.execute(query)
     return redirect('/prescricao')
   except Exception as e:
-    return str(e) 
+    return str(e)
   finally:
     dbConn.commit()
     cursor.close()
@@ -303,7 +303,242 @@ def delete_prescricao():
     cursor.execute(query)
     return redirect('/prescricao')
   except Exception as e:
-    return str(e) 
+    return str(e)
+  finally:
+    dbConn.commit()
+    cursor.close()
+    dbConn.close()
+
+
+
+@app.route('/analise')
+def list_analise_edit():
+  dbConn=None
+  cursor=None
+  try:
+    dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+    cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
+    query = "SELECT * FROM analise;"
+    print(cursor.execute(query))
+    return render_template("analise.html", cursor=cursor, params=request.args)
+  except Exception as e:
+    return str(e)
+  finally:
+    cursor.close()
+    dbConn.close()
+
+@app.route('/analise/insert')
+def insert_analise():
+  try:
+    return render_template("analiseInsert.html", params=request.args)
+  except Exception as e:
+    return str(e)
+
+@app.route('/analise/insert/done', methods=["POST"])
+def insert_analise_done():
+  dbConn=None
+  cursor=None
+  try:
+    dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+    cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
+    query = f'''INSERT into analise VALUES(
+      {request.form["num_analise"]}, '{request.form["especialidade"]}', {request.form["num_cedula"]},{request.form["num_doente"]},
+      '{request.form["data"]}', '{request.form["data_registo"]}', '{request.form["nome"]}',{request.form["quantidade"]}, '{request.form["instituicao"]}');'''
+    cursor.execute(query)
+    return redirect('/analise')
+  except Exception as e:
+    return str(e)
+  finally:
+    dbConn.commit()
+    cursor.close()
+    dbConn.close()
+
+
+@app.route('/analise/update')
+def update_analise():
+  try:
+    return render_template("analiseUpdate.html", params=request.args)
+  except Exception as e:
+    return str(e)
+
+
+@app.route('/analise/update/done', methods=["POST"])
+def update_analise_done():
+  dbConn=None
+  cursor=None
+  try:
+    dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+    cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
+    query = f'''UPDATE analise
+      SET num_analise={request.form["num_analise"]},
+      especialidade='{request.form["especialidade"]}',
+      num_cedula={request.form["num_cedula"]},
+      num_doente={request.form["num_doente"]},
+      data='{request.form["data"]}',
+      data_registo='{request.form["data_registo"]}',
+      nome ='{request.form["nome"]}',
+      quant = {request.form["quantidade"]},
+      inst = '{request.form["instituicao"]}'
+      WHERE num_analise={request.form["num_analise"]};'''
+    cursor.execute(query)
+    return redirect('/analise')
+  except Exception as e:
+    return str(e)
+  finally:
+    dbConn.commit()
+    cursor.close()
+    dbConn.close()
+
+@app.route('/analise/delete')
+def delete_analise():
+  dbConn=None
+  cursor=None
+  try:
+    dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+    cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
+    query = f'''DELETE FROM analise
+      WHERE num_analise={request.args["num_analise"]};'''
+    cursor.execute(query)
+    return redirect('/analise')
+  except Exception as e:
+    return str(e)
+  finally:
+    dbConn.commit()
+    cursor.close()
+    dbConn.close()
+
+
+################################################################
+#                       REVER                                  #
+################################################################
+@app.route('/perguntae')
+def perguntae_form():
+  try:
+    return render_template("perguntae.html", params=request.args)
+  except Exception as e:
+    return str(e)
+
+@app.route('/perguntae/done', methods=["POST"])
+def perguntae_done():
+  dbConn=None
+  cursor=None
+  try:
+    dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+    cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
+    query = f'''SELECT DISTINCT(substancia)
+    FROM prescricao
+    WHERE EXTRACT(MONTH from data)={request.form["data"]}
+    AND EXTRACT(YEAR from data)=EXTRACT(YEAR from CURRENT_DATE);'''
+    cursor.execute(query)
+    return render_template("perguntaeTable.html", cursor=cursor, params=request.args)
+  except Exception as e:
+    return str(e)
+  finally:
+    dbConn.commit()
+    cursor.close()
+    dbConn.close()
+
+
+@app.route('/perguntac')
+def perguntac_form():
+  try:
+    return render_template("perguntac.html", params=request.args)
+  except Exception as e:
+    return str(e)
+
+@app.route('/venda_farmacia')
+def perguntac_list():
+  dbConn=None
+  cursor=None
+  try:
+    dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+    cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
+    query = "SELECT * FROM venda_farmacia ORDER BY num_venda DESC;"
+    cursor.execute(query)
+    return render_template("perguntacTable.html", cursor=cursor, params=request.args)
+  except Exception as e:
+    return str(e)
+  finally:
+    cursor.close()
+    dbConn.close()
+
+@app.route('/prescricao_farmacia')
+def perguntac_prescricao_farmacia():
+  dbConn=None
+  cursor=None
+  try:
+    dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+    cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
+    query = "SELECT * FROM prescricao_venda ORDER BY num_venda DESC;"
+    cursor.execute(query)
+    return render_template("perguntacTable.html", cursor=cursor, params=request.args)
+  except Exception as e:
+    return str(e)
+  finally:
+    cursor.close()
+    dbConn.close()
+
+@app.route('/perguntac/prescricao', methods=["POST"])
+def perguntac_prescricao():
+  dbConn=None
+  cursor=None
+  try:
+    dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+    cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
+    query =\
+    f'''create or replace function last_venda()
+    	returns decimal (20,2) AS
+    $$
+    	declare lastvenda decimal (20,2);
+     begin
+        SELECT num_venda into lastvenda
+        FROM venda_farmacia
+    	ORDER BY num_venda DESC
+    	LIMIT 1;
+    	return lastvenda;
+    End;
+    $$ Language plpgsql;
+
+    INSERT INTO venda_farmacia
+    SELECT last_venda()+1 as num_venda, data as data_registo, substancia, quant,random()*10 as preco,nome_instituicao as inst
+    FROM prescricao NATURAL JOIN consulta
+    WHERE num_cedula={request.form["num_cedula"]}
+    AND num_doente={request.form["num_doente"]}
+    AND data='{request.form["data"]}'
+    AND substancia='{request.form["substancia"]}';
+
+    INSERT INTO prescricao_venda
+    SELECT num_cedula, num_doente, data, substancia, last_venda() as num_venda
+    FROM prescricao NATURAL JOIN consulta
+    WHERE num_cedula={request.form["num_cedula"]}
+    AND num_doente={request.form["num_doente"]}
+    AND data='{request.form["data"]}'
+    AND substancia='{request.form["substancia"]}';
+
+    '''
+    cursor.execute(query)
+    return redirect('/prescricao_farmacia')
+  except Exception as e:
+    return str(e)
+  finally:
+    dbConn.commit()
+    cursor.close()
+    dbConn.close()
+
+@app.route('/perguntac/venda', methods=["POST"])
+def perguntac_venda():
+  dbConn=None
+  cursor=None
+  try:
+    dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+    cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
+    query = f'''INSERT INTO venda_farmacia VALUES(
+      {request.form["num_venda"]},'{request.form["data"]}','{request.form["substancia"]}',
+      {request.form["quantidade"]},{request.form["preco"]},'{request.form["instituicao"]}');'''
+    cursor.execute(query)
+    return redirect("/perguntac/view")
+  except Exception as e:
+    return str(e)
   finally:
     dbConn.commit()
     cursor.close()

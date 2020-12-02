@@ -1,6 +1,7 @@
 <html>
-    <body>
-        <h3>Adicionar {{ params.get("nome") }}</h3>
+<title>Adicionar Instituicao</title>
+<body>
+        <h3>Adicionar Instituicao</h3>
         <form action="insert/done" method="post">
             <p><input type="hidden" name="nome" value="{{ params.get('nome') }}"/></p>
             <p>Nome: <input type="text" name="nome_novo" value="{{ params.get('nome') }}"/></p>
