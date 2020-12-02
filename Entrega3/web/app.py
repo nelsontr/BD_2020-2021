@@ -57,10 +57,12 @@ def insert_instituicao_done():
   try:
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
     cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
-    query = f'''INSERT into instituicao(nome, tipo, num_regiao, num_concelho) VALUES(
-      '{request.form["nome_novo"]}','{request.form["tipo"]}',
-      '{request.form["regiao"]}','{request.form["concelho"]}');'''
-    cursor.execute(query)
+    query = f'''INSERT into instituicao(nome, tipo, num_regiao, num_concelho) VALUES(%s,%s,%s,%s);'''
+    data = (request.form["nome_novo"],
+      request.form["tipo"],
+      request.form["regiao"],
+      request.form["concelho"])
+    cursor.execute(query,data)
     return redirect('/instituicao')
   except Exception as e:
     return str(e)
@@ -86,12 +88,17 @@ def update_instituicao_done():
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
     cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
     query = f'''UPDATE instituicao
-      SET nome='{request.form["nome_novo"]}',
-      tipo='{request.form["tipo"]}',
-      num_regiao ='{request.form["regiao"]}',
-      num_concelho ='{request.form["concelho"]}'
-      WHERE nome='{request.form["nome"]}';'''
-    cursor.execute(query)
+      SET nome=%s,
+      tipo=%s,
+      num_regiao =%s,
+      num_concelho =%s
+      WHERE nome=%s;'''
+    data = (request.form["nome_novo"],
+      request.form["tipo"],
+      request.form["regiao"],
+      request.form["concelho"],
+      request.form["nome"])
+    cursor.execute(query, data)
     return redirect('/instituicao')
   except Exception as e:
     return str(e)
@@ -107,9 +114,9 @@ def delete_instituicao():
   try:
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
     cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
-    query = f'''DELETE FROM instituicao
-      WHERE nome='{request.args["nome"]}';'''
-    cursor.execute(query)
+    query = f'''DELETE FROM instituicao WHERE nome=%s;'''
+    data = (request.args["nome"],)
+    cursor.execute(query,data)
     return redirect('/instituicao')
   except Exception as e:
     return str(e)
@@ -150,9 +157,11 @@ def insert_medico_done():
   try:
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
     cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
-    query = f'''INSERT into medico VALUES(
-      {request.form["num_cedulaNovo"]},'{request.form["nome"]}','{request.form["especialidade"]}');'''
-    cursor.execute(query)
+    query = f'''INSERT into medico VALUES(%s,%s,%s);'''
+    data = (request.form["num_cedulaNovo"],
+      request.form["nome"],
+      request.form["especialidade"])
+    cursor.execute(query,data)
     return redirect('/medico')
   except Exception as e:
     return str(e)
@@ -178,11 +187,15 @@ def update_medico_done():
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
     cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
     query = f'''UPDATE medico
-      SET num_cedula='{request.form["num_cedulaNovo"]}',
-      nome='{request.form["nome"]}',
-      especialidade ='{request.form["especialidade"]}'
-      WHERE num_cedula={request.form["num_cedula"]};'''
-    cursor.execute(query)
+      SET num_cedula=%s,
+      nome=%s,
+      especialidade %s'
+      WHERE num_cedula=%s;'''
+    data = (request.form["num_cedulaNovo"],
+        request.form["nome"],
+        request.form["especialidade"],
+        request.form["num_cedula"])
+    cursor.execute(query, data)
     return redirect('/medico')
   except Exception as e:
     return str(e)
@@ -199,8 +212,9 @@ def delete_medico():
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
     cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
     query = f'''DELETE FROM medico
-      WHERE num_cedula='{request.args["num_cedula"]}';'''
-    cursor.execute(query)
+      WHERE num_cedula=%s;'''
+    data = (request.args["num_cedula"],)
+    cursor.execute(query, data)
     return redirect('/medico')
   except Exception as e:
     return str(e)
@@ -242,9 +256,13 @@ def insert_prescricao_done():
   try:
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
     cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
-    query = f'''INSERT into prescricao VALUES(
-      {request.form["num_cedula"]},{request.form["num_doente"]},'{request.form["data"]}', '{request.form["substancia"]}','{request.form["quantidade"]}');'''
-    cursor.execute(query)
+    query = f'''INSERT into prescricao VALUES(%s,%s,%s, %s, %s);'''
+    data = (request.form["num_cedula"],
+        request.form["num_doente"],
+        request.form["data"],
+        request.form["substancia"],
+        request.form["quantidade"])
+    cursor.execute(query,data)
     return redirect('/prescricao')
   except Exception as e:
     return str(e)
@@ -270,16 +288,18 @@ def update_prescricao_done():
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
     cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
     query = f'''UPDATE prescricao
-      SET num_cedula='{request.form["num_cedulaNovo"]}',
-      num_doente='{request.form["num_doenteNovo"]}',
-      data='{request.form["dataNovo"]}',
-      substancia ='{request.form["substanciaNovo"]}',
-      quantidade = '{request.form["quantidade"]}'
-      WHERE num_cedula={request.args["num_cedula"]}
-      AND num_doente={request.args["num_doente"]}
-      AND data='{request.args["data"]}'
-      AND substancia ='{request.args["substancia"]}';'''
-    cursor.execute(query)
+      SET num_cedula=%s, num_doente=%s, data=%s,
+      substancia =%s, quantidade = '%s
+      WHERE num_cedula=%s
+        AND num_doente=%s
+        AND data=%s
+        AND substancia =%s;'''
+    data = (request.form["num_cedulaNovo"],
+      request.form["num_doenteNovo"], request.form["dataNovo"],
+      request.form["substanciaNovo"], request.form["quantidade"],
+      request.args["num_cedula"], request.args["num_doente"],
+      request.args["data"], request.args["substancia"])
+    cursor.execute(query,data)
     return redirect('/prescricao')
   except Exception as e:
     return str(e)
@@ -296,11 +316,13 @@ def delete_prescricao():
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
     cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
     query = f'''DELETE FROM prescricao
-      WHERE num_cedula={request.args["num_cedula"]}
-      AND num_doente={request.args["num_doente"]}
-      AND data='{request.args["data"]}'
-      AND substancia ='{request.args["substancia"]}';'''
-    cursor.execute(query)
+      WHERE num_cedula=%s
+      AND num_doente=%s
+      AND data=%s
+      AND substancia=%s;'''
+    data = (request.args["num_cedula"], request.args["num_doente"],\
+      request.args["data"],request.args["substancia"])
+    cursor.execute(query, data)
     return redirect('/prescricao')
   except Exception as e:
     return str(e)
@@ -319,7 +341,7 @@ def list_analise_edit():
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
     cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
     query = "SELECT * FROM analise;"
-    print(cursor.execute(query))
+    cursor.execute(query)
     return render_template("analise.html", cursor=cursor, params=request.args)
   except Exception as e:
     return str(e)
@@ -341,10 +363,10 @@ def insert_analise_done():
   try:
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
     cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
-    query = f'''INSERT into analise VALUES(
-      {request.form["num_analise"]}, '{request.form["especialidade"]}', {request.form["num_cedula"]},{request.form["num_doente"]},
-      '{request.form["data"]}', '{request.form["data_registo"]}', '{request.form["nome"]}',{request.form["quantidade"]}, '{request.form["instituicao"]}');'''
-    cursor.execute(query)
+    query = f'''INSERT into analise VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s);'''
+    data = ( request.form["num_analise"], request.form["especialidade"], request.form["num_cedula"],request.form["num_doente"],
+      request.form["data"], request.form["data_registo"], request.form["nome"],request.form["quantidade"], request.form["instituicao"])
+    cursor.execute(query,data)
     return redirect('/analise')
   except Exception as e:
     return str(e)
@@ -370,17 +392,17 @@ def update_analise_done():
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
     cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
     query = f'''UPDATE analise
-      SET num_analise={request.form["num_analise"]},
-      especialidade='{request.form["especialidade"]}',
-      num_cedula={request.form["num_cedula"]},
-      num_doente={request.form["num_doente"]},
-      data='{request.form["data"]}',
-      data_registo='{request.form["data_registo"]}',
-      nome ='{request.form["nome"]}',
-      quant = {request.form["quantidade"]},
-      inst = '{request.form["instituicao"]}'
-      WHERE num_analise={request.form["num_analise"]};'''
-    cursor.execute(query)
+      SET num_analise=%s, especialidade=%s,
+      num_cedula=%s, num_doente=%s,
+      data=%s, data_registo=%s,
+      nome=%s, quant=%s, inst=%s
+      WHERE num_analise=%s;'''
+    data = (request.form["num_analise"], request.form["especialidade"],
+      request.form["num_cedula"], request.form["num_doente"],
+      request.form["data"], request.form["data_registo"],
+      request.form["nome"], request.form["quantidade"],
+      request.form["instituicao"], request.form["num_analise"])
+    cursor.execute(query, data)
     return redirect('/analise')
   except Exception as e:
     return str(e)
@@ -397,8 +419,9 @@ def delete_analise():
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
     cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
     query = f'''DELETE FROM analise
-      WHERE num_analise={request.args["num_analise"]};'''
-    cursor.execute(query)
+      WHERE num_analise=%s;'''
+    data = (request.args["num_analise"],)
+    cursor.execute(query,data)
     return redirect('/analise')
   except Exception as e:
     return str(e)
@@ -408,9 +431,6 @@ def delete_analise():
     dbConn.close()
 
 
-################################################################
-#                       REVER                                  #
-################################################################
 @app.route('/perguntad')
 def perguntad_form():
   try:
@@ -425,11 +445,13 @@ def perguntad_done():
   try:
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
     cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
-    query = f'''SELECT DISTINCT(substancia)
-        FROM prescricao
-        WHERE EXTRACT(MONTH from data)={request.form["data"]}
-        AND EXTRACT(YEAR from data)=EXTRACT(YEAR from CURRENT_DATE);'''
-    cursor.execute(query)
+    query = "SELECT DISTINCT(substancia)\
+        FROM prescricao\
+        WHERE EXTRACT(MONTH from data)=%s \
+        AND EXTRACT(YEAR from data)=EXTRACT(YEAR from CURRENT_DATE);"
+    data = (request.form["data"],)
+    print(query, data)
+    cursor.execute(query, data)
     return render_template("perguntadTable.html", cursor=cursor, params=request.args)
   except Exception as e:
     return str(e)
@@ -490,13 +512,15 @@ def registoVenda_prescricao():
     SELECT (SELECT num_venda
     FROM venda_farmacia
     ORDER BY num_venda DESC
-    LIMIT 1)+1 as num_venda, data as data_registo, substancia, quant,random()*10 as preco,nome_instituicao as inst
+    LIMIT 1)+1 as num_venda, data as data_registo, substancia, quant, %s as preco,nome_instituicao as inst
     FROM prescricao NATURAL JOIN consulta
-    WHERE num_cedula={request.form["num_cedula"]}
-    AND num_doente={request.form["num_doente"]}
-    AND data='{request.form["data"]}'
-    AND substancia='{request.form["substancia"]}';'''
-    cursor.execute(query)
+    WHERE num_cedula=%s
+    AND num_doente=%s
+    AND data=%s
+    AND substancia=%s;'''
+    data = (request.form["preco"],request.form["num_cedula"],\
+      request.form["num_doente"],request.form["data"], request.form["substancia"])
+    cursor.execute(query, data)
 
     query =\
     f'''INSERT INTO prescricao_venda
@@ -505,11 +529,13 @@ def registoVenda_prescricao():
     ORDER BY num_venda DESC
     LIMIT 1) as num_venda
     FROM prescricao NATURAL JOIN consulta
-    WHERE num_cedula={request.form["num_cedula"]}
-    AND num_doente={request.form["num_doente"]}
-    AND data='{request.form["data"]}'
-    AND substancia='{request.form["substancia"]}';'''
-    cursor.execute(query)
+    WHERE num_cedula=%s
+    AND num_doente=%s
+    AND data=%s
+    AND substancia=%s;'''
+    data = (request.form["num_cedula"],request.form["num_doente"],\
+      request.form["data"], request.form["substancia"])
+    cursor.execute(query,data)
     return redirect('/prescricao_venda')
   except Exception as e:
     return str(e)
@@ -525,10 +551,10 @@ def registoVenda_venda():
   try:
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
     cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
-    query = f'''INSERT INTO venda_farmacia VALUES(
-      {request.form["num_venda"]},'{request.form["data"]}','{request.form["substancia"]}',
-      {request.form["quantidade"]},{request.form["preco"]},'{request.form["instituicao"]}');'''
-    cursor.execute(query)
+    query = f'''INSERT INTO venda_farmacia VALUES(%s, %s,%s,%s, %f, %s);'''
+    data = (request.form["num_venda"],request.form["data"],request.form["substancia"],\
+      request.form["quantidade"],request.form["preco"],request.form["instituicao"])
+    cursor.execute(query,data)
     return redirect("/venda_farmacia")
   except Exception as e:
     return str(e)
