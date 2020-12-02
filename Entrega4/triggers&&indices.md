@@ -1,3 +1,4 @@
+## Triggers
 ```sql
 --RI-100: um médico não pode dar mais de 100 consultas por semana na mesma instituição
 drop trigger if exists verifica_medico_trigger on consulta;
