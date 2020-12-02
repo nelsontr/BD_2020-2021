@@ -1,64 +1,9 @@
-## Triggers
-```sql
---RI-100: um médico não pode dar mais de 100 consultas por semana na mesma instituição
-drop trigger if exists verifica_medico_trigger on consulta;
-
-create or replace function verifica_medico() returns trigger as $$
-declare consultas decimal(20,2);
-
-begin
-	select count(*) into consultas
-	from consulta c
-	where c.num_cedula = new.num_cedula
-	and c.nome_instituicao = new.nome_instituicao
-	and EXTRACT(YEAR from c.data) = EXTRACT(YEAR from new.data)
-	and EXTRACT(WEEK from c.data) = EXTRACT(WEEK from new.data);
-	
-	if consultas >= 100 then
-		raise exception 'O médico % não pode dar mais de 100 consultas por semana na mesma instituição.', new.num_cedula;
-  	end if;
-  return new;
- 
- END;
- $$ Language plpgsql;
- 
-create trigger verifica_medico_trigger before insert on consulta
-for each row execute procedure verifica_medico();
-```
-
-```sql
---RI-análise: numa análise, a consulta associada pode estar omissa; não estando, a especialidade
---da consulta tem de ser igual à do médico.
-drop trigger if exists verifica_especialidade_trigger on analise;
-
-create or replace function verifica_especialidade() returns trigger as $$
-declare especialidade varchar(25);
-begin
-	select m.especialidade into especialidade
-	from consulta c natural join medico m
-	where c.num_cedula = new.num_cedula
-	and c.num_doente = new.num_doente
-	and c.data = new.data;
-	
-	if especialidade is not null and especialidade != new.especialidade then
-		raise exception 'O médico % não tem a especialidade necessária para analisar.', new.num_cedula;
-  	end if;
-  return new;
- 
- END;
- $$ Language plpgsql;
- 
-create trigger verifica_especialidade_trigger before insert on analise
-for each row execute procedure verifica_especialidade();
-```
-
-
-
-## ÍNDICES (???)
+## ÍNDICES
 
 #### Query 1: 
 
-​	->não é necessário criar nenhum índice porque é criado implicitamente para as chaves primárias. Apenas é preciso alterar a ordem dos campos das chaves primárias na declaração da tabela consulta para que o num_doente seja o primeiro atributo e assim, a utilização do índice existente é automática.
+​	-> Não é necessário criar nenhum índice porque é criado implicitamente para as chaves primárias. 
+Assim, apenas é preciso alterar a ordem dos campos das chaves primárias na declaração da tabela consulta para que o num_doente seja o primeiro atributo. Concluindo, o índice criado para a chave primária é o único necessário para acelerar a execução desta query;
 
 #### Query 2:
 
@@ -90,10 +35,9 @@ CREATE INDEX index_especialidade ON medico(especialidade)
  
 
 #### Query 4:
-​	Como num_cedula é foreign key na tabela consulta, não tem nenhum índice criado implicitamente. Assim, é útil criar um índice na tabela consulta no atributo num_cedula. 
-CREATE INDEX idx_cedula on consulta(num_cedula).
+​	Segundo o enunciado, há índices criados implicitamente para as foreign keys e como num_cedula é foreign key da tabela consulta, este índice criado deve ser utilizado para otimizar esta query.
 
-​	Criar um índice do tipo BTree para o atributo "data" da tabela consulta para otimizar a comparação entre as duas datas dadas. Esta otimização acontece porque as folhas do índice estão sempre ordenadas, .
-CREATE INDEX idx_data on consulta USING B-TREE(data)
+​	Para além deste índice, deve-se criar um índice do tipo BTree para o atributo "data" da tabela consulta para otimizar a comparação entre as duas datas dadas. Este tipo de índice é o apropriado para acelerar esta query porque as folhas do índice estão sempre ordenadas, o que facilita a comparação entre as datas:
+	CREATE INDEX idx_data on consulta USING B-TREE(data)
 
 	
