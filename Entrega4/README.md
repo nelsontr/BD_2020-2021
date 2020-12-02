@@ -9,7 +9,7 @@
 |  3   | Na pasta web/ diz para fazer uma venda segundo uma prescricao.<br/> Contudo, numa venda tem de haver um preco, o que colocamos?       |          |
 |  4   | O que returnar quando fazemos a alinea c) do web (a das vendas)?      |          |
 |  5   | O que são os valores de glicemia? Pergunta d)        |          |
-|      |        |          |
+|  6   | Se x e y forem chaves primárias, é criado um índice para x e <br/> outro para y, ou é criado um índice para (x,y)?       |          |
 |      |        |          |
 |      |        |          |
 
