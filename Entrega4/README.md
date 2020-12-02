@@ -9,13 +9,14 @@
 |  3   | Na pasta web/ diz para fazer uma venda segundo uma prescricao.<br/> Contudo, numa venda tem de haver um preco, o que colocamos?       | Dar escolha ao user para colocar o preco |
 |  4   | O que retornar quando fazemos a alinea c) do web (a das vendas)?      | Pode ser como temos (ADICIONAR BACK BOTTON) |
 |  5   | O que são os valores de glicemia? Pergunta d)        | Analise - nome |
-|  6   | Se x e y forem chaves primárias, é criado um índice para x e <br/> outro para y, ou é criado um índice para (x,y)?       | Cria para os dois |
+|  6   | Se x e y forem chaves primárias, é criado um índice para x e <br/> outro para y, ou é criado um índice para (x,y)?       | Cria um para (x,y) |
 |      |        |          |
 |      |        |          |
 
 ## Relatório
 
 Na tabela prescrição venda, o atributo num_venda passou a ser UNIQUE;
+Na tabela concelho, o atributo num_concelho passou a ser UNIQUE;
 
 
 ## Falta
