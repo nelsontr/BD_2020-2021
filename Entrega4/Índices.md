@@ -35,7 +35,7 @@ CREATE INDEX index_especialidade ON medico(especialidade)
  
 
 #### Query 4:
-​	Segundo o enunciado, há índices criados implicitamente para as foreign keys e como num_cedula é foreign key da tabela consulta, este índice criado deve ser utilizado para otimizar esta query.
+​	São criados índices implicitamente para as primary keys e assim, pode ser utilizado neste caso para acelerar a execução desta query, uma vez que o atributo num_cedula é o primeiro atributo da chave primária na declaração da tabela consulta. Se o atributo num_cedula não fosse o primeiro da chave primária, então tinhamos de alterar a ordem dos campos das chaves primárias.
 
 ​	Para além deste índice, deve-se criar um índice do tipo BTree para o atributo "data" da tabela consulta para otimizar a comparação entre as duas datas dadas. Este tipo de índice é o apropriado para acelerar esta query porque as folhas do índice estão sempre ordenadas, o que facilita a comparação entre as datas:
 	CREATE INDEX idx_data on consulta USING B-TREE(data)
