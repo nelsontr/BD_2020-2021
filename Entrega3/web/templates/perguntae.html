@@ -1,10 +1,31 @@
-<html>
-    <title>Pergunta e)</title>
-    <body>
-        <h3>Qual o mês que quer ver? (Deste Ano)</h3>
-        <form action="perguntae/done" method="post">
-            <p>Mes: <input type="number" name="data" value="" min="1" max="12"/></p>
-            <p><input type="submit" value="Submit"/></p>
-        </form>
-    </body>
-</html>
+<doctype html>
+  <title>List Glicémia</title>
+  <body style="padding: 20px">
+    {% if cursor %}
+    <table border="2px">
+      <thead>
+        <tr>
+          <th>Numero Concelho</th>
+          <th>ID_Doente (Max)</th>
+          <th>Valor Maximo Glicémico</th>
+          <th>ID_Doente (Min)</th>
+          <th>Valor Minimo Glicémico</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for record in cursor %}
+        <tr>
+          <td>{{ record[0] }}</td>
+          <td>{{ record[1] }}</td>
+          <td>{{ record[2] }}</td>
+          <td>{{ record[3] }}</td>
+          <td>{{ record[4] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p>Erro: ao obter dados da base de dados!</p>
+    {% endif %}
+  </body>
+</doctype>

@@ -411,15 +411,15 @@ def delete_analise():
 ################################################################
 #                       REVER                                  #
 ################################################################
-@app.route('/perguntae')
-def perguntae_form():
+@app.route('/perguntad')
+def perguntad_form():
   try:
-    return render_template("perguntae.html", params=request.args)
+    return render_template("perguntad.html", params=request.args)
   except Exception as e:
     return str(e)
 
-@app.route('/perguntae/done', methods=["POST"])
-def perguntae_done():
+@app.route('/perguntad/done', methods=["POST"])
+def perguntad_done():
   dbConn=None
   cursor=None
   try:
@@ -430,7 +430,7 @@ def perguntae_done():
         WHERE EXTRACT(MONTH from data)={request.form["data"]}
         AND EXTRACT(YEAR from data)=EXTRACT(YEAR from CURRENT_DATE);'''
     cursor.execute(query)
-    return render_template("perguntaeTable.html", cursor=cursor, params=request.args)
+    return render_template("perguntadTable.html", cursor=cursor, params=request.args)
   except Exception as e:
     return str(e)
   finally:
@@ -530,6 +530,45 @@ def registoVenda_venda():
       {request.form["quantidade"]},{request.form["preco"]},'{request.form["instituicao"]}');'''
     cursor.execute(query)
     return redirect("/venda_farmacia")
+  except Exception as e:
+    return str(e)
+  finally:
+    dbConn.commit()
+    cursor.close()
+    dbConn.close()
+
+@app.route('/perguntae')
+def perguntae():
+  dbConn=None
+  cursor=None
+  try:
+    dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+    cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
+    query = f'''
+    With temp as (
+    SELECT num_concelho, num_doente, COUNT(a.nome) as counter
+    FROM analise a
+    INNER JOIN instituicao i
+    ON a.inst = i.nome
+    WHERE a.nome='glicemia'
+    GROUP BY num_concelho, num_doente
+    ORDER BY num_concelho ASC
+    )
+	
+    SELECT *
+    FROM (SELECT num_concelho, num_doente as maxi_id, counter as maxi
+        FROM temp sub 
+          NATURAL JOIN 
+          (SELECT num_concelho,MAX(sub.counter) as counter 
+            FROM temp sub GROUP BY num_concelho) sub2) al
+      NATURAL JOIN (SELECT num_concelho, num_doente as minimo_id, counter as mini
+        FROM temp sub 
+          NATURAL JOIN 
+          (SELECT num_concelho,MIN(sub.counter) as counter 
+              FROM temp sub GROUP BY num_concelho) sub2)  al2
+      ORDER BY num_concelho ASC, maxi DESC, mini DESC'''
+    cursor.execute(query)
+    return render_template("perguntae.html", cursor=cursor, params=request.args)
   except Exception as e:
     return str(e)
   finally:

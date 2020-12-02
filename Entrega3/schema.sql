@@ -155,7 +155,3 @@ CREATE TABLE prescricao_venda (
   FOREIGN KEY (num_cedula, num_doente, data, substancia)
     REFERENCES prescricao(num_cedula, num_doente, data, substancia)
 );
-
-alter table prescricao_venda drop constraint prescricao_venda_num_cedula_num_doente_data_substancia_fkey;
-alter table venda_farmacia add constraint prescricao_venda_num_cedula_num_doente_data_substancia_fkey foreign key(num_cedula, num_doente, data, substancia)
-  references prescricao(num_cedula, num_doente, data, substancia) on delete cascade;
