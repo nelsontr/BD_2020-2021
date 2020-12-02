@@ -56,11 +56,9 @@ for each row execute procedure verifica_especialidade();
 
 ## ÍNDICES (???)
 
-#### Query 1:
+#### Query 1: 
 
-​	-> (Se for criado um índice para o trio): Criar um índice, na tabela consulta para o atributo num_doente; 
-
-​	-> (Se for criado um índice por cada atributo que é chave): não é necessário criar nenhum índice porque é criado implicitamente para as chaves primárias e assim, o atributo num_doente, sendo chave da tabela consulta já tem um índice associado. Pode ser preciso alterar a ordem dos campos das chaves primárias na declaração da tabela consulta para que o num_doente seja o primeiro atributo;
+​	->não é necessário criar nenhum índice porque é criado implicitamente para as chaves primárias. Apenas é preciso alterar a ordem dos campos das chaves primárias na declaração da tabela consulta para que o num_doente seja o primeiro atributo e assim, a utilização do índice existente é automática.
 
 #### Query 2:
 
@@ -92,11 +90,6 @@ CREATE INDEX index_especialidade ON medico(especialidade)
  
 
 #### Query 4:
-
-​	Provavelmente, índice do tipo BTree:
-
-​	As folhas do índice estão sempre ordenadas e é útil na procura de "ranges" (maior, menor, entre);
-
 ​	Como num_cedula é foreign key na tabela consulta, não tem nenhum índice criado implicitamente. Assim, é útil criar um índice na tabela consulta no atributo num_cedula. 
 CREATE INDEX idx_cedula on consulta(num_cedula).
 
