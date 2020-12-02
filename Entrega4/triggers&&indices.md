@@ -58,7 +58,7 @@ for each row execute procedure verifica_especialidade();
 
 ##### Query 1:
 
-​	-> (Se for criado um índice para o trio): Criar um índice, na tabela consulta para o atributo num_doente; 
+​	-> (Se for criado um índice para o trio): Criar um índice, na tabela consulta para o atributo num_doente; <\br>
 ​	-> (Se for criado um índice por cada atributo que é chave): não é necessário criar nenhum índice porque é criado implicitamente para as chaves primárias e assim, o atributo num_doente, sendo chave da tabela consulta já tem um índice associado.
 
 ##### Query 2:
