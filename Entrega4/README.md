@@ -17,6 +17,7 @@
 
 Na tabela prescrição venda, o atributo num_venda passou a ser UNIQUE;
 Na tabela concelho, o atributo num_concelho passou a ser UNIQUE;
+Escrever todos os passos para se conseguir testar a pasta web
 
 
 ## Falta
