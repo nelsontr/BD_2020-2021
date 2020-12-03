@@ -2,8 +2,8 @@
 
 #### Query 1 :heavy_check_mark: : 
 
-​	-> Não é necessário criar nenhum índice porque é criado implicitamente para as chaves primárias. 
-Assim, apenas é preciso alterar a ordem dos campos das chaves primárias na declaração da tabela consulta para que o num_doente seja o primeiro atributo. Concluindo, o índice criado para a chave primária é o único necessário para acelerar a execução desta query;
+Não é necessário criar nenhum índice porque é criado implicitamente para as chaves primárias. 
+Assim, apenas é preciso alterar a ordem dos campos das chaves primárias na declaração da tabela consulta para que o num_doente seja o primeiro atributo. Concluindo, ao alterar a ordem dos campos das chaves primárias, o índice criado implicitamente é o único necessário para acelerar a execução desta query.
 
 #### Query 2:
 
