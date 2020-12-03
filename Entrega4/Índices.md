@@ -1,6 +1,6 @@
 ## ÍNDICES
 
-#### Query 1: 
+#### Query 1 :heavy_check_mark: : 
 
 ​	-> Não é necessário criar nenhum índice porque é criado implicitamente para as chaves primárias. 
 Assim, apenas é preciso alterar a ordem dos campos das chaves primárias na declaração da tabela consulta para que o num_doente seja o primeiro atributo. Concluindo, o índice criado para a chave primária é o único necessário para acelerar a execução desta query;
@@ -34,7 +34,7 @@ CREATE INDEX index_especialidade ON medico(especialidade)
  
  
 
-#### Query 4:
+#### Query 4 :heavy_check_mark: :
 ​	São criados índices implicitamente para as primary keys e assim, pode ser utilizado neste caso para acelerar a execução desta query, uma vez que o atributo num_cedula é o primeiro atributo da chave primária na declaração da tabela consulta. Se o atributo num_cedula não fosse o primeiro da chave primária, então tinhamos de alterar a ordem dos campos das chaves primárias.
 
 ​	Para além deste índice, deve-se criar um índice do tipo BTree para o atributo "data" da tabela consulta para otimizar a comparação entre as duas datas dadas. Este tipo de índice é o apropriado para acelerar esta query porque as folhas do índice estão sempre ordenadas, o que facilita a comparação entre as datas:
