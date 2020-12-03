@@ -48,3 +48,16 @@ CREATE TABLE f_analise (
     FOREIGN KEY (id_data_registo) REFERENCES d_tempo(id_tempo),
     FOREIGN KEY (id_inst) REFERENCES d_instituicao(id_inst)
 );
+
+CREATE TABLE fact_table (
+    id_tempo int,
+    id_inst int,
+    id_presc_venda int,
+    id_analise int,
+
+    PRIMARY KEY (id_tempo, id_inst, id_presc_venda, id_analise),
+    FOREIGN KEY (id_tempo) REFERENCES d_tempo(id_tempo),
+    FOREIGN KEY (id_inst) REFERENCES d_instituicao(id_inst),
+    FOREIGN KEY (id_presc_venda) REFERENCES f_presc_venda(id_presc_venda),
+    FOREIGN KEY (id_analise) REFERENCES f_analise(id_analise)
+);
