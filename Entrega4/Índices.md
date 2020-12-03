@@ -18,20 +18,9 @@ Assim, apenas é preciso alterar a ordem dos campos das chaves primárias na dec
  através da função de dispersão.
 
 #### Query 3:
-Blocos do disco são de 2KBytes e cada registo ocupa 1kByte, ou seja, cada bloco leva 2 registos. Seletividade de (1/6) = 0.16666667 ou seja, a probabilidade de um bloco não ter respostas é de (1-0.16666667)^2 (por serem dois registos por bloco), que é aproximadamente 69%. Logo, teremos de ler 31% dos blocos. Quanto menor for a resposta, maior é o benefício dos índices a reduzir leituras do disco. Assim, é útil, criar um índice.
-(???) do tipo Hash na tabela medico no atributo especialidade:
-CREATE INDEX index_especialidade ON medico(especialidade)
+Blocos do disco são de 2KBytes e cada registo ocupa 1kByte, ou seja, cada bloco leva 2 registos. Seletividade de (1/6) = 0.16666667 ou seja, a probabilidade de um bloco não ter respostas é de (1-0.16666667)^2 (por serem dois registos por bloco), que é aproximadamente 69%. Logo, teremos de ler 31% dos blocos. Quanto menor for a percentagem de blocos a ler, maior é o benefício dos índices a reduzir leituras do disco. Assim, como teremos de ler 31% dos blocos, é útil utilizarmos um índice. Uma vez que a query implica uma igualdade no atributo especialidade da tabela medico, então é útil utilizar um índice do tipo Hash para acelerar a realização desta query, porque cada "contentor" aramazena um conjunto de entradas e através da função de dispersão, o acesso fica otimizado.
 
-​	Provavelmente, índice do tipo Hash:
-
-​	São os melhores para seleção por igualdade;
-
-​	Há uma estrutura;
- 
- Criar um índice do tipo Hash para o atributo especialidade da tabela medico porque fica dividido            
- por vários contentores e assim cada contentor guarda um conjunto de entradas e o acesso fica otimizado 
- através da função de dispersão.
- 
+CREATE INDEX index_especialidade ON medico USING HASH(especialidade)
  
 
 #### Query 4 :heavy_check_mark: :
