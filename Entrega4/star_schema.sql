@@ -1,3 +1,8 @@
+DROP TABLE d_tempo CASCADE;
+DROP TABLE d_instituicao CASCADE;
+DROP TABLE f_analise CASCADE;
+DROP TABLE f_presc_venda CASCADE;
+
 CREATE TABLE d_tempo (
     id_tempo serial PRIMARY KEY,
     dia int,
