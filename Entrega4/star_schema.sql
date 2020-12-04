@@ -11,8 +11,6 @@ CREATE TABLE d_tempo (
     mes int,
     trimestre int,
     ano int
-	
-	
 );
 
 CREATE TABLE d_instituicao (
