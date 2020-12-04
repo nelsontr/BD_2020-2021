@@ -26,7 +26,7 @@ with temp as(
 
 select substancia, num_concelho, dia_da_semana, mes, sum_quant,
 case
-when (dia_da_semana is null and mes is null) then
+when dia_da_semana is null and mes is null then
 	cast(cast(c as float)/90 as float(3))
 
 when dia_da_semana is not null and mes is null then
