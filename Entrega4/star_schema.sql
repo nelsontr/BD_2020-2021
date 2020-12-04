@@ -1,15 +1,17 @@
 CREATE TABLE d_tempo (
-    id_tempo serial,
+    id_tempo serial PRIMARY KEY,
     dia int,
     dia_da_semana int,
     semana int,
     mes int,
     trimestre int,
     ano int
+	
+	
 );
 
 CREATE TABLE d_instituicao (
-    id_inst serial,
+    id_inst serial PRIMARY KEY,
     nome varchar(255),
     tipo varchar(11),
     num_regiao int,

@@ -50,7 +50,7 @@ CREATE TABLE regiao (
 
 
 CREATE TABLE concelho (
-  num_concelho int,
+  num_concelho int UNIQUE,
   num_regiao int,
   nome varchar(24),
   num_habitantes double precision,
@@ -149,7 +149,7 @@ CREATE TABLE prescricao_venda (
   num_doente int,
   data date,
   substancia varchar(255),
-  num_venda int,
+  num_venda int UNIQUE,
 
   PRIMARY KEY (num_cedula, num_doente, data, substancia, num_venda),
   FOREIGN KEY (num_cedula, num_doente, data, substancia)
