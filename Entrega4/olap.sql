@@ -12,27 +12,27 @@ ORDER BY especialidade, ano, mes ASC;
 	
 --2
 
-with temp as(
-	select substancia, num_concelho, dia_da_semana, mes, sum(quant) as sum_quant, count(*) as c
-	from f_presc_venda v
-		natural join d_instituicao
-		inner join d_tempo on v.id_data_registo = d_tempo.id_tempo
-	where num_regiao = 2
-		and trimestre = 1
-		and ano = 2020
-	group by rollup(substancia, num_concelho, dia_da_semana, mes)
-	order by substancia, mes, dia_da_semana asc
+WITH TEMP AS(
+	SELECT substancia, num_concelho, dia_da_semana, mes, SUM(quant) AS sum_quant, COUNT(*) AS c
+	FROM f_presc_venda v
+		NATURAL JOIN d_instituicao
+		INNER JOIN d_tempo on v.id_data_registo = d_tempo.id_tempo
+	WHERE num_regiao = 2
+		AND trimestre = 1
+		AND ano = 2020
+	GROUP BY ROLLUP(substancia, num_concelho, dia_da_semana, mes)
+	ORDER BY substancia, mes, dia_da_semana asc
 )
 
-select substancia, num_concelho, dia_da_semana, mes, sum_quant,
-case
-when dia_da_semana is null and mes is null then
-	cast(cast(c as float)/90 as float(3))
+SELECT substancia, num_concelho, dia_da_semana, mes, sum_quant,
+CASE
+WHEN dia_da_semana IS NULL AND mes IS NULL THEN
+	CAST(CAST(c AS FLOAT)/90 AS FLOAT(3))
 
-when dia_da_semana is not null and mes is null then
-	cast(cast(c as float)/13 as float(3))
+WHEN dia_da_semana IS NOT NULL AND mes IS NULL THEN
+	CAST(CAST(c AS FLOAT)/13 AS FLOAT(3))
 
-when dia_da_semana is not null and mes is not null then
-	cast(cast(c as float)/4 as float(3))
-end as media
-from temp sub
+WHEN dia_da_semana IS NOT null AND mes IS NOT null THEN
+	CAST(CAST(c AS FLOAT)/4 AS FLOAT(3))
+END AS media
+FROM TEMP sub
