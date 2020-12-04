@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+from wsgiref.handlers import CGIHandler
 from flask import Flask
 from flask import render_template, request, redirect, url_for
 
@@ -34,7 +35,7 @@ def list_instituicao_edit():
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
     cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
     query = "SELECT * FROM instituicao ORDER BY nome ASC;"
-    print(cursor.execute(query))
+    cursor.execute(query)
     return render_template("instituicao.html", cursor=cursor, params=request.args)
   except Exception as e:
     return str(e)
@@ -62,7 +63,7 @@ def insert_instituicao_done():
       request.form["regiao"],
       request.form["concelho"])
     cursor.execute(query,data)
-    return redirect('/instituicao')
+    return redirect(url_for('list_instituicao_edit'))
   except Exception as e:
     return str(e)
   finally:
@@ -98,7 +99,7 @@ def update_instituicao_done():
       request.form["concelho"],
       request.form["nome"])
     cursor.execute(query, data)
-    return redirect('/instituicao')
+    return redirect(url_for('list_instituicao_edit'))
   except Exception as e:
     return str(e)
   finally:
@@ -116,7 +117,7 @@ def delete_instituicao():
     query = f'''DELETE FROM instituicao WHERE nome=%s;'''
     data = (request.args["nome"],)
     cursor.execute(query,data)
-    return redirect('/instituicao')
+    return redirect(url_for('list_instituicao_edit'))
   except Exception as e:
     return str(e)
   finally:
@@ -134,7 +135,7 @@ def list_medico_edit():
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
     cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
     query = "SELECT * FROM medico ORDER BY num_cedula ASC;"
-    print(cursor.execute(query))
+    cursor.execute(query)
     return render_template("medico.html", cursor=cursor, params=request.args)
   except Exception as e:
     return str(e)
@@ -161,7 +162,7 @@ def insert_medico_done():
       request.form["nome"],
       request.form["especialidade"])
     cursor.execute(query,data)
-    return redirect('/medico')
+    return redirect(url_for('list_medico_edit'))
   except Exception as e:
     return str(e)
   finally:
@@ -195,7 +196,7 @@ def update_medico_done():
         request.form["especialidade"],
         request.form["num_cedula"])
     cursor.execute(query, data)
-    return redirect('/medico')
+    return redirect(url_for('list_medico_edit'))
   except Exception as e:
     return str(e)
   finally:
@@ -214,7 +215,7 @@ def delete_medico():
       WHERE num_cedula=%s;'''
     data = (request.args["num_cedula"],)
     cursor.execute(query, data)
-    return redirect('/medico')
+    return redirect(url_for('list_medico_edit'))
   except Exception as e:
     return str(e)
   finally:
@@ -233,7 +234,7 @@ def list_prescricao_edit():
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
     cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
     query = "SELECT * FROM prescricao ORDER BY num_cedula ASC, num_doente ASC;"
-    print(cursor.execute(query))
+    cursor.execute(query)
     return render_template("prescricao.html", cursor=cursor, params=request.args)
   except Exception as e:
     return str(e)
@@ -262,7 +263,7 @@ def insert_prescricao_done():
         request.form["substancia"],
         request.form["quantidade"])
     cursor.execute(query,data)
-    return redirect('/prescricao')
+    return redirect(url_for('list_prescricao_edit'))
   except Exception as e:
     return str(e)
   finally:
@@ -299,7 +300,7 @@ def update_prescricao_done():
       request.args["num_cedula"], request.args["num_doente"],
       request.args["data"], request.args["substancia"])
     cursor.execute(query,data)
-    return redirect('/prescricao')
+    return redirect(url_for('list_prescricao_edit'))
   except Exception as e:
     return str(e)
   finally:
@@ -322,7 +323,7 @@ def delete_prescricao():
     data = (request.args["num_cedula"], request.args["num_doente"],\
       request.args["data"],request.args["substancia"])
     cursor.execute(query, data)
-    return redirect('/prescricao')
+    return redirect(url_for('list_prescricao_edit'))
   except Exception as e:
     return str(e)
   finally:
@@ -366,7 +367,7 @@ def insert_analise_done():
     data = ( request.form["num_analise"], request.form["especialidade"], request.form["num_cedula"],request.form["num_doente"],
       request.form["data"], request.form["data_registo"], request.form["nome"],request.form["quantidade"], request.form["instituicao"])
     cursor.execute(query,data)
-    return redirect('/analise')
+    return redirect(url_for('list_analise_edit'))
   except Exception as e:
     return str(e)
   finally:
@@ -402,7 +403,7 @@ def update_analise_done():
       request.form["nome"], request.form["quantidade"],
       request.form["instituicao"], request.form["num_analise"])
     cursor.execute(query, data)
-    return redirect('/analise')
+    return redirect(url_for('list_analise_edit'))
   except Exception as e:
     return str(e)
   finally:
@@ -421,7 +422,7 @@ def delete_analise():
       WHERE num_analise=%s;'''
     data = (request.args["num_analise"],)
     cursor.execute(query,data)
-    return redirect('/analise')
+    return redirect(url_for('list_analise_edit'))
   except Exception as e:
     return str(e)
   finally:
@@ -446,10 +447,10 @@ def perguntad_done():
     cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
     query = "SELECT DISTINCT(substancia)\
         FROM prescricao\
-        WHERE EXTRACT(MONTH from data)=%s \
+        WHERE num_cedula = %s\
+        AND EXTRACT(MONTH from data)=%s \
         AND EXTRACT(YEAR from data)=%s;"
-    data = (request.form["mes"],request.form["ano"])
-    print(query, data)
+    data = (request.form["num_cedula"], request.form["mes"],request.form["ano"])
     cursor.execute(query, data)
     return render_template("perguntadTable.html", cursor=cursor, params=request.args)
   except Exception as e:
@@ -535,7 +536,7 @@ def registoVenda_prescricao():
     data = (request.form["num_cedula"],request.form["num_doente"],\
       request.form["data"], request.form["substancia"])
     cursor.execute(query,data)
-    return redirect('/prescricao_venda')
+    return redirect(url_for('prescricao_venda_list'))
   except Exception as e:
     return str(e)
   finally:
@@ -554,7 +555,7 @@ def registoVenda_venda():
     data = (request.form["num_venda"],request.form["data"],request.form["substancia"],\
       request.form["quantidade"],request.form["preco"],request.form["instituicao"])
     cursor.execute(query,data)
-    return redirect("/venda_farmacia")
+    return redirect(url_for('venda_farmacia_list'))
   except Exception as e:
     return str(e)
   finally:
@@ -600,4 +601,6 @@ def perguntae():
     dbConn.commit()
     cursor.close()
     dbConn.close()
+
+CGIHandler().run(app)
 
