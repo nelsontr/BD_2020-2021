@@ -10,7 +10,7 @@
 |  4   | O que retornar quando fazemos a alinea c) do web (a das vendas)?      | Pode ser como temos (ADICIONAR BACK BOTTON) |
 |  5   | O que são os valores de glicemia? Pergunta d)        | Analise - nome |
 |  6   | Se x e y forem chaves primárias, é criado um índice para x e <br/> outro para y, ou é criado um índice para (x,y)?       | Cria um para (x,y) |
-|      |        |          |
+|  |  |          |
 |      |        |          |
 
 ## Relatório
@@ -22,8 +22,8 @@ Escrever todos os passos para se conseguir testar a pasta web
 
 ## Falta
 
-1. web/ <- Ver injection prevention - PowerPoint flask
 2. testar triggers
 3. índices
 4. etl.sql
 5. olap.sql
+5. Reformular Texto de E3

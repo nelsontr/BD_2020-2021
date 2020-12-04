@@ -1134,4 +1134,3 @@ INSERT INTO prescricao_venda (num_cedula, num_doente, data, substancia, num_vend
   (13,69,'2019-7-26','paracetamol',72),
   (13,59,'2020-6-11','strepfen',73),
   (8,17,'2020-10-26','ibuprofeno',74);
-

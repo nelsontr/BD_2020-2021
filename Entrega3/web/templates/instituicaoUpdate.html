@@ -1,7 +1,7 @@
 <html>
     <title>Alterar Instituicao</title>
     <body>
-        <h3>Alterar {{ params.get("nome") }}</h3>
+        <h3>Alterar "{{ params.get("nome") }}"</h3>
         <form action="update/done" method="post">
             <p><input type="hidden" name="nome" value="{{ params.get('nome') }}"/></p>
             <p>Nome: <input type="text" name="nome_novo" value="{{ params.get('nome') }}"/></p>

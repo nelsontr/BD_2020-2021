@@ -1,7 +1,7 @@
 <html>
     <title>Alterar Medico</title>
     <body>
-        <h3>Alterar Médico {{ params.get("nome") }}, Numero_Cedula: {{ params.get("num_cedula") }}</h3>
+        <h3>Alterar Médico "{{ params.get("nome") }}", Numero_Cedula: "{{ params.get("num_cedula") }}"</h3>
         <form action="update/done" method="post">
             <p><input type="hidden" name="num_cedula" value="{{ params.get('num_cedula') }}"/></p>
             <p>Num_cedula: <input type="number" name="num_cedulaNovo" value="{{ params.get('num_cedula') }}"/></p>

@@ -34,7 +34,7 @@ def list_instituicao_edit():
   try:
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
     cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
-    query = "SELECT * FROM instituicao;"
+    query = "SELECT * FROM instituicao ORDER BY nome ASC;"
     print(cursor.execute(query))
     return render_template("instituicao.html", cursor=cursor, params=request.args)
   except Exception as e:
@@ -134,7 +134,7 @@ def list_medico_edit():
   try:
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
     cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
-    query = "SELECT * FROM medico;"
+    query = "SELECT * FROM medico ORDER BY num_cedula ASC;"
     print(cursor.execute(query))
     return render_template("medico.html", cursor=cursor, params=request.args)
   except Exception as e:
@@ -189,7 +189,7 @@ def update_medico_done():
     query = f'''UPDATE medico
       SET num_cedula=%s,
       nome=%s,
-      especialidade %s'
+      especialidade=%s
       WHERE num_cedula=%s;'''
     data = (request.form["num_cedulaNovo"],
         request.form["nome"],
@@ -233,7 +233,7 @@ def list_prescricao_edit():
   try:
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
     cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
-    query = "SELECT * FROM prescricao;"
+    query = "SELECT * FROM prescricao ORDER BY num_cedula ASC, num_doente ASC;"
     print(cursor.execute(query))
     return render_template("prescricao.html", cursor=cursor, params=request.args)
   except Exception as e:
@@ -448,8 +448,8 @@ def perguntad_done():
     query = "SELECT DISTINCT(substancia)\
         FROM prescricao\
         WHERE EXTRACT(MONTH from data)=%s \
-        AND EXTRACT(YEAR from data)=EXTRACT(YEAR from CURRENT_DATE);"
-    data = (request.form["data"],)
+        AND EXTRACT(YEAR from data)=%s;"
+    data = (request.form["mes"],request.form["ano"])
     print(query, data)
     cursor.execute(query, data)
     return render_template("perguntadTable.html", cursor=cursor, params=request.args)
@@ -551,7 +551,7 @@ def registoVenda_venda():
   try:
     dbConn = psycopg2.connect(DB_CONNECTION_STRING)
     cursor = dbConn.cursor(cursor_factory = psycopg2.extras.DictCursor)
-    query = f'''INSERT INTO venda_farmacia VALUES(%s, %s,%s,%s, %f, %s);'''
+    query = f'''INSERT INTO venda_farmacia VALUES(%s, %s,%s,%s, %s, %s);'''
     data = (request.form["num_venda"],request.form["data"],request.form["substancia"],\
       request.form["quantidade"],request.form["preco"],request.form["instituicao"])
     cursor.execute(query,data)
