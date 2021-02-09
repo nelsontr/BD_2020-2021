@@ -1,8 +1,10 @@
 # BD_2020_2021
 Databases 2020/2021
 
-###### Group
-@catasofia, @nelsontr, @kylazz
+#### Group
+- @catasofia
+- @nelsontr
+- @kylazz
 
 ### Projects
 - [x] [Project1](Entrega1/BD%202021%20Enunciado%20Projeto%20-%20Parte%201.pdf)
@@ -11,7 +13,7 @@ Databases 2020/2021
 - [x] [Project4](Entrega4/BD%202021%20Enunciado%20Projeto%20-%20Parte%204.pdf)
 
 ### Grades
-| Project                                      | Grade (out of 20) |
+| Solution                                      | Grade (out of 20) |
 | -----------------------------------------: | :------------: |
 | [Project1](Project1/Relatório_G50_BD_P1.pdf) | 15.5           |
 | [Project2](Project2/entrega-02-50.pdf)       | 17.2           |
